@@ -2,6 +2,7 @@
 
 namespace CONTROLLERS;
 use PDO;
+use SessionController\SessionController;
 
 class questsController extends \DATABASE\FFDatabaseInternal
 {
@@ -70,6 +71,24 @@ class questsController extends \DATABASE\FFDatabaseInternal
 
         } else
             return [false, "null hata"];
+    }
+
+    public function imILiked($qid){
+        $sc = SessionController::CreateInstance();
+
+        if ($sc->Get("is_logged") == 1)
+        {
+            $questL = \DATABASE\FFDatabase::cfun()->select("likes")->where("liked_by", $sc->Get("logged_user_id"))->where("liked_to", $qid)->run()->getAll();
+
+            if ($questL != "no-record" && $questL && count($questL) > 0)
+            {
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
     }
 
     public static function cfun()

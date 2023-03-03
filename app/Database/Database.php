@@ -29,7 +29,7 @@ class FFDatabase
     public function BuildSQL()
     {
         if ($this->where && count($this->where) > 0) {
-            $this->buildedSQL .= " WHERE ";
+            $this->buildedSQL .= " WHERE BINARY ";
             $tbl = false;
             foreach ($this->where as $key) {
                 if ($tbl) {

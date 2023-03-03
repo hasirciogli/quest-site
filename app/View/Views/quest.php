@@ -34,7 +34,7 @@ $target_quest = $urli[2];
 }
 
 {
-    $questL = \DATABASE\FFDatabase::cfun()->select("likes")->where("liked_by", $questU["id"])->run()->getAll();
+    $questL = \DATABASE\FFDatabase::cfun()->select("likes")->where("liked_to", $quest["id"])->run()->getAll();
 
     if (!$questL)
     {
@@ -52,6 +52,9 @@ $target_quest = $urli[2];
         die("?");
     }
 }
+
+$userController = \CONTROLLERS\userController::cfun();
+$questsController = \CONTROLLERS\questsController::cfun();
 
 //var_dump($quest);
 ?>
@@ -143,8 +146,8 @@ include __DIR__ . "/../datapages/header.php";
                 <div class="mt-5">
                     <p><?php echo $quest["content"] ?></p>
                     <div class="flex flex-row items-center mt-10">
-                        <img src="/storage/image/site-images/hearth-blank.png" class="w-6 h-6 hover:cursor-pointer" alt="" id="make-like-button-for-quest">
-                        <img src="/storage/image/site-images/hearth-yellow.png" class="w-6 h-6 hover:cursor-pointer hidden" alt="" id="make-unlike-button-for-quest">
+                        <img src="/storage/image/site-images/hearth-blank.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "hidden" : ""; ?>" alt="" id="make-like-button-for-quest">
+                        <img src="/storage/image/site-images/hearth-yellow.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "" : "hidden"; ?>" alt="" id="make-unlike-button-for-quest">
                         <div class="ml-2 text-sm"><?php echo is_array($questL) ? count($questL) : "0"; ?> Likes</div>
                     </div>
 

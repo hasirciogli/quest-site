@@ -34,6 +34,11 @@ Router::get("/", function () {
     View::Show("home", pageTypes::PAGE_TYPE_NORMAL);
 });
 
+Router::get("/test", function () {
+    //Router::Route("login");
+    View::Show("test", pageTypes::PAGE_TYPE_NORMAL);
+});
+
 Router::get("/remote_owner_page", function () {
     //Router::Route("login");
     View::Show("owner/home", pageTypes::PAGE_TYPE_NORMAL);
