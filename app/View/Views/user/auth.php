@@ -2,6 +2,10 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <?php echo configs_site_libs; ?>
 
     <title>Authentication in progress</title>
@@ -76,6 +80,18 @@ function renderLoginPage()
     <script>
         $(document).ready(() => {
 
+            function getHost(add = "") {
+                var cstr = window.location.toString();
+                return (cstr.substring(0, 5) == "https" ? "https" : "http") + "://" + window.location.hostname + add;
+            }
+            function kisalt(str, len) {
+                if (str.length > len) {
+                    return str.substr(0, len) + "...";
+                }
+
+                return str;
+            }
+
             toastr.options = {
                 "closeButton": true,
                 "debug": false,
@@ -101,7 +117,7 @@ function renderLoginPage()
                 btnClicked = true;
                 //toastr["success"]("My name is Inigo Montoya. You killed my father. Prepare to die!");
                 $.ajax({
-                    url: "http://localhost/api/backend/user",
+                    url: getHost() + "/api/backend/user",
                     method: "POST",
                     data: {
                         "action": "login",

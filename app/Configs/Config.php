@@ -20,8 +20,8 @@ define("configs_mail_port", 587);
 define("configs_mail_password", "");
 
 
-define("configs_host_domain", "localhost");
-define("configs_host_ssl", "http");
+define("configs_host_domain", "hsrcpay.click");
+define("configs_host_ssl", "https");
 
 
 define("configs_payment_backtr", "");
