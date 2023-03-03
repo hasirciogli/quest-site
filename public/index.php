@@ -20,7 +20,6 @@ use SessionController\SessionController;
 
 //$RouteSideUserController = new \USER_CONTROLLER\userController();
 
-$sessionEx = new SessionsFromMysql();
 
 if (framework_is_debug_mode) {
     Router::get("/debug_display_errors", function () {
@@ -52,11 +51,36 @@ Router::get("/policy", function () {
     View::Show("../datapages/policy", pageTypes::PAGE_TYPE_NORMAL);
 });
 
+
 Router::Middleware("quest", true, function () {
     View::Show("quest", pageTypes::PAGE_TYPE_NORMAL);
 }, function () {
 
 });
+
+
+
+
+
+
+Router::Middleware("profile", \CONTROLLERS\userController::cfun()->isLogged(), function () {
+    View::Show("user/profile", pageTypes::PAGE_TYPE_NORMAL);
+}, function () {
+    Router::Route("auth/login");
+});
+
+
+
+
+Router::Middleware("auth", !\CONTROLLERS\userController::cfun()->isLogged(), function () {
+    View::Show("user/auth", pageTypes::PAGE_TYPE_NORMAL);
+}, function () {
+    Router::Route("profile");
+});
+
+
+
+
 
 Router::Middleware("storage", true, function () {
     require configs_site_rootfolder . "/storage/storagemanager.php";

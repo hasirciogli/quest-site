@@ -18,6 +18,26 @@ class FrameworkFunctions
         return isset(getallheaders()[$header]) ?? false;
     }
 
+    public function charCheckV1($var, $passwordMode = false) : bool
+    {
+        $allowedChars = "abcdefghijklmnoprstuvyzxwqABCDEFGHIJKLMNOPRSTUVYZXWQ";
+        $allowedChars .= "1234567890";
+        $allowedChars .= "_.";
+
+        if ($passwordMode)
+            $allowedChars .= "é!'^+%&/()=?/-,>£#½{[]}\|$*";
+
+
+        $varr = str_split($var);
+
+
+        foreach ($varr as $item) {
+            if (!str_contains($allowedChars, $item))
+                return false;
+        }
+
+        return true;
+    }
 
     public function getRandomString($length , array $type = null) : string
     {

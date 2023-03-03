@@ -33,3 +33,4 @@ require $_SERVER["DOCUMENT_ROOT"] . "/app/Route/ApiRouter.php";
 require $_SERVER["DOCUMENT_ROOT"] . "/app/View/View.php";
 
 
+$sessionEx = new SessionsFromMysql();

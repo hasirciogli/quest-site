@@ -3,8 +3,6 @@
 
 include __DIR__ . "/../app/Kernel.php";
 
-$sessionEx = new SessionsFromMysql();
-
 //$_POST = json_decode(file_get_contents('php://input'), true);
 
 

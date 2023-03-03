@@ -64,7 +64,7 @@
                         </span>
 
                     <span>
-                            <a href="/account" class="block border-b-4 border-transparent p-6 hover:border-red-700">
+                            <a href="/profile" class="block border-b-4 border-transparent p-6 hover:border-red-700">
                                 <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
