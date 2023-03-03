@@ -1,0 +1,90 @@
+[03-Mar-2023 09:21:33 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php:65
+Stack trace:
+#0 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(185): SdsenDatabase->query()
+#1 [internal function]: SessionsFromMysql->_read()
+#2 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(160): session_start()
+#3 /home/hsrcpayc/public_html/app/Kernel.php(36): SessionsFromMysql->__construct()
+#4 /home/hsrcpayc/public_html/public/index.php(13): require('/home/hsrcpayc/...')
+#5 {main}
+  thrown in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php on line 65
+[03-Mar-2023 09:21:33 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php:65
+Stack trace:
+#0 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(185): SdsenDatabase->query()
+#1 [internal function]: SessionsFromMysql->_read()
+#2 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(160): session_start()
+#3 /home/hsrcpayc/public_html/app/Kernel.php(36): SessionsFromMysql->__construct()
+#4 /home/hsrcpayc/public_html/public/index.php(13): require('/home/hsrcpayc/...')
+#5 {main}
+  thrown in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php on line 65
+[03-Mar-2023 09:21:36 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php:65
+Stack trace:
+#0 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(185): SdsenDatabase->query()
+#1 [internal function]: SessionsFromMysql->_read()
+#2 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(160): session_start()
+#3 /home/hsrcpayc/public_html/app/Kernel.php(36): SessionsFromMysql->__construct()
+#4 /home/hsrcpayc/public_html/public/index.php(13): require('/home/hsrcpayc/...')
+#5 {main}
+  thrown in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php on line 65
+[03-Mar-2023 09:21:36 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php:65
+Stack trace:
+#0 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(185): SdsenDatabase->query()
+#1 [internal function]: SessionsFromMysql->_read()
+#2 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(160): session_start()
+#3 /home/hsrcpayc/public_html/app/Kernel.php(36): SessionsFromMysql->__construct()
+#4 /home/hsrcpayc/public_html/public/index.php(13): require('/home/hsrcpayc/...')
+#5 {main}
+  thrown in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php on line 65
+[03-Mar-2023 09:21:39 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php:65
+Stack trace:
+#0 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(185): SdsenDatabase->query()
+#1 [internal function]: SessionsFromMysql->_read()
+#2 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(160): session_start()
+#3 /home/hsrcpayc/public_html/app/Kernel.php(36): SessionsFromMysql->__construct()
+#4 /home/hsrcpayc/public_html/public/index.php(13): require('/home/hsrcpayc/...')
+#5 {main}
+  thrown in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php on line 65
+[03-Mar-2023 09:21:40 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php:65
+Stack trace:
+#0 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(185): SdsenDatabase->query()
+#1 [internal function]: SessionsFromMysql->_read()
+#2 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(160): session_start()
+#3 /home/hsrcpayc/public_html/app/Kernel.php(36): SessionsFromMysql->__construct()
+#4 /home/hsrcpayc/public_html/public/index.php(13): require('/home/hsrcpayc/...')
+#5 {main}
+  thrown in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php on line 65
+[03-Mar-2023 09:21:40 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php:65
+Stack trace:
+#0 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(185): SdsenDatabase->query()
+#1 [internal function]: SessionsFromMysql->_read()
+#2 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(160): session_start()
+#3 /home/hsrcpayc/public_html/app/Kernel.php(36): SessionsFromMysql->__construct()
+#4 /home/hsrcpayc/public_html/public/index.php(13): require('/home/hsrcpayc/...')
+#5 {main}
+  thrown in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php on line 65
+[03-Mar-2023 09:21:40 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php:65
+Stack trace:
+#0 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(185): SdsenDatabase->query()
+#1 [internal function]: SessionsFromMysql->_read()
+#2 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(160): session_start()
+#3 /home/hsrcpayc/public_html/app/Kernel.php(36): SessionsFromMysql->__construct()
+#4 /home/hsrcpayc/public_html/public/index.php(13): require('/home/hsrcpayc/...')
+#5 {main}
+  thrown in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php on line 65
+[03-Mar-2023 09:21:52 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php:65
+Stack trace:
+#0 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(185): SdsenDatabase->query()
+#1 [internal function]: SessionsFromMysql->_read()
+#2 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(160): session_start()
+#3 /home/hsrcpayc/public_html/app/Kernel.php(36): SessionsFromMysql->__construct()
+#4 /home/hsrcpayc/public_html/public/index.php(13): require('/home/hsrcpayc/...')
+#5 {main}
+  thrown in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php on line 65
+[03-Mar-2023 09:22:00 UTC] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php:65
+Stack trace:
+#0 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(185): SdsenDatabase->query()
+#1 [internal function]: SessionsFromMysql->_read()
+#2 /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php(160): session_start()
+#3 /home/hsrcpayc/public_html/app/Kernel.php(36): SessionsFromMysql->__construct()
+#4 /home/hsrcpayc/public_html/public/index.php(13): require('/home/hsrcpayc/...')
+#5 {main}
+  thrown in /home/hsrcpayc/public_html/app/FFunctions/SessionsFromMysql.php on line 65
