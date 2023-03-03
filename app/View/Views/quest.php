@@ -128,17 +128,24 @@ include __DIR__ . "/../datapages/header.php";
 
                     if ($quest["secret_mode"] == 1)
                     {
-                    ?>
+                        ?>
 
                         <div class="flex flex-col justify-center h-full p-2">
                             <div class="fffonts-golostext">Gizli Üye</div>
                             <div class="fffonts-golostext">Level: xxx | Yaş: xx</div>
                         </div>
                     <?php } else{
-                    ?>
+
+                        $____dogumTarihi____ = isset($questU["birth_date"]) && $questU["birth_date"] != "" ? $questU["birth_date"] : date("Y-m-d");
+                        //$____bugun____ = date("Y-m-d H:i:s");
+                        $____bugun____ = date("Y-m-d");
+                        $____diff____ = date_diff(date_create($____dogumTarihi____), date_create($____bugun____));
+                        //$____bAe____  = $____diff____->format('%y.%m.%d : %H:%i:%s');
+                        $____bAe____  = $____diff____->format('%y.%m.%d');
+                        ?>
                         <div class="flex flex-col justify-center h-full p-2">
-                            <a href="/user-profile/<?php echo $questU["id"] ?>"><div class="fffonts-golostext"><?php echo $questU["name"] . " " . $questU["surname"];  ?></div></a>
-                            <div class="fffonts-golostext">Level: <?php echo $questU["level"] ?> | Yaş: <3</div>
+                            <a href="/user-profile/<?php echo $questU["id"] ?>"><div class="fffonts-golostext font-semibold"><?php echo $questU["name"] . " " . $questU["surname"];  ?></div></a>
+                            <div class="fffonts-golostext" title="Kişini yaşı sırasıya YIL AY GÜN olarak belirtilmiştir">Level: <?php echo $questU["level"] ?> | Yaş: <?php echo (isset($questU["birth_date"]) && $questU["birth_date"] != "" ? $____bAe____ : "Belirtilmemiş"); ?></div>
                         </div>
                     <?php }
                     ?>

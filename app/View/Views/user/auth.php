@@ -75,7 +75,30 @@ function renderLoginPage()
 
     <script>
         $(document).ready(() => {
+
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "2000",
+                "extendedTimeOut": "300",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+            var btnClicked = false;
             $("#btn").click(() => {
+                if (btnClicked)
+                    return;
+                btnClicked = true;
                 //toastr["success"]("My name is Inigo Montoya. You killed my father. Prepare to die!");
                 $.ajax({
                     url: "http://localhost/api/backend/user",
@@ -87,6 +110,17 @@ function renderLoginPage()
                     },
                     success: (data, status) => {
                         console.log(data);
+                        if (data.status)
+                        {
+                            Command: toastr["success"]("Successfully Logged in brother!", "SUCCESS");
+                            setTimeout(() => {
+                                location.reload();
+                            }, 2222);
+                        }
+                        else{
+                            toastr["error"](data.data.err);
+                            btnClicked = false;
+                        }
                     },
                     error: (v1, v2) => {
                         console.log(v1);

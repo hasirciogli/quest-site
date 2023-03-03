@@ -88,6 +88,18 @@ Router::Middleware("storage", true, function () {
 
 });
 
+
+Router::middleware("logout", \CONTROLLERS\userController::cfun()->isLogged(),
+    function () {
+        $LGTSC = new SessionController();
+        $LGTSC->ResetSessionData();
+        $LGTSC = null;
+        Router::Route("");
+    }, function () {
+        Router::Route("");
+    }
+);
+
 if (false) {
     Router::get("/register", function () {
         Router::Route("login");
