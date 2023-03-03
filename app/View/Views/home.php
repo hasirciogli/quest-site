@@ -132,11 +132,10 @@ include __DIR__ . "/../datapages/header.php";
 
 <div class="container mx-auto min-h-[650px] transition-all duration-300">
     <div class="w-full h-[350px] overflow-hidden relative p-2 sm:p-3 transition-all duration-300">
-        <div
-                class="w-full h-full overflow-hidden rounded-md bg-blue-600 bg-[url('https://images.pexels.com/photos/8348625/pexels-photo-8348625.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-center bg-no-repeat bg-origin-content bg-cover">
-        </div>
-        <div
-                class="flex md:w-[500px] flex-col justify-end w-full relative top-[-350px] h-[350px] flex text-white pl-3 pb-3">
+
+        <div class="w-full h-full overflow-hidden rounded-md bg-blue-600 bg-[url('https://images.pexels.com/photos/8348625/pexels-photo-8348625.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-center bg-no-repeat bg-origin-content bg-cover"></div>
+
+        <div class="flex md:w-[500px] flex-col justify-end w-full relative top-[-350px] h-[350px] flex text-white pl-3 pb-3">
             <span class="font-semibold text-3xl">Anonim olarak soru sor.</span>
             <p class="font-normal text-sm">
                 Bizi kullanarak anonim soru sorabilirsiniz. Eğer onaylı bir hesaba sahip olsanız bile herhangi bir

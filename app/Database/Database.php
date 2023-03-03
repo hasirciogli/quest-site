@@ -2,6 +2,7 @@
 
 namespace DATABASE;
 use PDO;
+use PHPMailer\PHPMailer\Exception;
 
 class FFDatabase
 {
@@ -23,7 +24,13 @@ class FFDatabase
 
     public function init()
     {
-        $this->connection = new PDO("mysql:host=" . $this->db_host . ";dbname=" . $this->db_name . ";charset=utf8", $this->db_username, $this->db_password);
+        try {
+            $this->connection = new PDO("mysql:host=" . $this->db_host . ";dbname=" . $this->db_name . ";charset=utf8", $this->db_username, $this->db_password);
+        }
+        catch (Exception $e)
+        {
+            die("Veritabanı bağlantı hatası");
+        }
     }
 
     public function BuildSQL()
@@ -198,7 +205,14 @@ class FFDatabaseInternal
 
     public function init()
     {
-        $this->connection = new PDO("mysql:host=" . $this->db_host . ";dbname=" . $this->db_name . ";charset=utf8", $this->db_username, $this->db_password);
-        return $this;
+        try {
+            $this->connection = new PDO("mysql:host=" . $this->db_host . ";dbname=" . $this->db_name . ";charset=utf8", $this->db_username, $this->db_password);
+            return $this;
+        }
+        catch (Exception $e)
+        {
+            die("Veritabanı bağlantı hatası");
+        }
+
     }
 }

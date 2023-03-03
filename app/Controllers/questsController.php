@@ -1,6 +1,7 @@
 <?php
 
 namespace CONTROLLERS;
+use DATABASE\FFDatabaseInternal;
 use PDO;
 use SessionController\SessionController;
 
@@ -89,6 +90,97 @@ class questsController extends \DATABASE\FFDatabaseInternal
             }
         }
         return false;
+    }
+
+    public function getLikeCountByQuest($qid){
+        $questL = \DATABASE\FFDatabase::cfun()->select("likes")->where("liked_to", $qid)->run()->getAll();
+
+        if ($questL && $questL != "no-record")
+            return [true, count($questL)];
+        else{
+            if ($questL && $questL == "no-record")
+                return [true, 0];
+            else
+                return [false, "database-error"];
+        }
+    }
+
+    public function likeQuestBySession($target_quest){
+        $sc = SessionController::CreateInstance();
+
+        if ($sc->Get("is_logged") == 1)
+        {
+            $suid = $sc->Get("logged_user_id");
+            $questU = \DATABASE\FFDatabase::cfun()->select("users")->where("id", $suid)->run()->get();
+
+            if ($questU != "no-record" && $questU)
+            {
+                $questL = \DATABASE\FFDatabase::cfun()->select("likes")->where("liked_by", $suid)->where("liked_to", $target_quest)->run()->get();
+
+                if ($questL && $questL == "no-record")
+                {
+                    $questsLikeAdd = \DATABASE\FFDatabase::cfun()->insert("likes", [["liked_to", $target_quest], ["liked_by", $suid]])->run();
+
+                    if ($questsLikeAdd->x)
+                    {
+                        return [true, $this->getLikeCountByQuest($target_quest)];
+                    }
+                    else
+                        return [false, "Like Eklenemedi, zaten beğenmişsin."];
+                }
+                else{
+                    if ($questL && $questL != "no-record")
+                        return [false, "Zaten beğenmişsin."];
+                    else
+                        return [false, "veritabanı hatası 111"];
+                }
+            }
+            else{
+                return [false, "veritabanı hatası 1"];
+            }
+        }
+        return [false, "need-login"];
+    }
+
+    public function unLikeQuestBySession($target_quest){
+        $sc = SessionController::CreateInstance();
+
+        if ($sc->Get("is_logged") == 1)
+        {
+            $suid = $sc->Get("logged_user_id");
+            $questU = \DATABASE\FFDatabase::cfun()->select("users")->where("id", $suid)->run()->get();
+
+            if ($questU != "no-record" && $questU)
+            {
+                $questL = \DATABASE\FFDatabase::cfun()->select("likes")->where("liked_by", $suid)->where("liked_to", $target_quest)->run()->get();
+
+                if ($questL && $questL != "no-record")
+                {
+
+                    $conn = FFDatabaseInternal::init();
+                    $v = $conn->connection->prepare("DELETE FROM likes WHERE id='{$questL["id"]}'");
+                    $v2 = $v->execute([]);
+                    $v3 = $v->fetch(PDO::FETCH_ASSOC);
+
+                    if ($v2)
+                    {
+                        return [true, $this->getLikeCountByQuest($target_quest)];
+                    }
+                    else
+                        return [false, "Like Silinemedi, Veritabanı hatası."];
+                }
+                else{
+                    if ($questL && $questL == "no-record")
+                        return [false, "Beğenmemişsin ki"];
+                    else
+                        return [false, "veritabanı hatası 111"];
+                }
+            }
+            else{
+                return [false, "veritabanı hatası 1"];
+            }
+        }
+        return [false, "need-login"];
     }
 
     public static function cfun()

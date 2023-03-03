@@ -20,24 +20,65 @@ class PluginController
                 "err" => "please use correct post parameters",
             ]);
 
+        function listQuests() {
 
+            $questsStatus = \CONTROLLERS\questsController::cfun()->getAllQuests();
 
-        {
-            function listQuests() {
-
-                $questsStatus = \CONTROLLERS\questsController::cfun()->getAllQuests();
-
-                if ($questsStatus[0])
-                    makeResponse(200, "Success", true, $questsStatus[1]);
-                else
-                    makeResponse(200, "Bad Request", false, [
-                        "err" => $questsStatus[1],
-                    ]);
-            }
+            if ($questsStatus[0])
+                makeResponse(200, "Success", true, $questsStatus[1]);
+            else
+                makeResponse(200, "Bad Request", false, [
+                    "err" => $questsStatus[1],
+                ]);
         }
+        function likeCountOfQuest() {
 
+            if (!PBSController::cfun()->checkNullOrBlankInPost(["question-id"]))
+                makeResponse(400, "Bad Request", false, [
+                    "err" => "please use correct post parameters",
+                ]);
 
+            $questsStatus = \CONTROLLERS\questsController::cfun()->getLikeCountByQuest($_POST["question-id"]);
 
+            if ($questsStatus[0])
+                makeResponse(200, "Success", true, $questsStatus[1]);
+            else
+                makeResponse(200, "Bad Request", false, [
+                    "err" => $questsStatus[1],
+                ]);
+        }
+        function likeQuest() {
+
+            if (!PBSController::cfun()->checkNullOrBlankInPost(["liketo"]))
+                makeResponse(400, "Bad Request", false, [
+                    "err" => "please use correct post parameters",
+                ]);
+
+            $questsStatus = \CONTROLLERS\questsController::cfun()->likeQuestBySession($_POST["liketo"]);
+
+            if ($questsStatus[0])
+                makeResponse(200, "Success", true, $questsStatus[1]);
+            else
+                makeResponse(200, "Error by like system", false, [
+                    "err" => $questsStatus[1],
+                ]);
+        }
+        function unLikeQuest() {
+
+            if (!PBSController::cfun()->checkNullOrBlankInPost(["unliketo"]))
+                makeResponse(400, "Bad Request", false, [
+                    "err" => "please use correct post parameters",
+                ]);
+
+            $questsStatus = \CONTROLLERS\questsController::cfun()->unLikeQuestBySession($_POST["unliketo"]);
+
+            if ($questsStatus[0])
+                makeResponse(200, "Success", true, $questsStatus[1]);
+            else
+                makeResponse(200, "Error by like system", false, [
+                    "err" => $questsStatus[1],
+                ]);
+        }
 
 
         $action = $_POST["action"];
@@ -46,6 +87,18 @@ class PluginController
         {
             case "list":
                 listQuests();
+                return;
+                break;
+            case "likec":
+                likeCountOfQuest();
+                return;
+                break;
+            case "like":
+                likeQuest();
+                return;
+                break;
+            case "unlike":
+                unLikeQuest();
                 return;
                 break;
             default:

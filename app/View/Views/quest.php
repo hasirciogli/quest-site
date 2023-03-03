@@ -68,16 +68,7 @@ $questsController = \CONTROLLERS\questsController::cfun();
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-            integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <link rel="stylesheet" href="/storage/css/index.css">
-
+    <?php echo configs_site_libs; ?>
     <?php echo configs_site_favicon; ?>
 
     <title>Soru Sor!</title>
@@ -153,9 +144,9 @@ include __DIR__ . "/../datapages/header.php";
                 <div class="mt-5">
                     <p><?php echo $quest["content"] ?></p>
                     <div class="flex flex-row items-center mt-10">
-                        <img src="/storage/image/site-images/hearth-blank.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "hidden" : ""; ?>" alt="" id="make-like-button-for-quest">
-                        <img src="/storage/image/site-images/hearth-yellow.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "" : "hidden"; ?>" alt="" id="make-unlike-button-for-quest">
-                        <div class="ml-2 text-sm"><?php echo is_array($questL) ? count($questL) : "0"; ?> Likes</div>
+                        <img src="/storage/image/site-images/hearth-blank.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "hidden" : ""; ?>" alt="" id="make-like-button-for-quest" base-quest-id="<?php echo $target_quest; ?>">
+                        <img src="/storage/image/site-images/hearth-yellow.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "" : "hidden"; ?>" alt="" id="make-unlike-button-for-quest" base-quest-id="<?php echo $target_quest; ?>">
+                        <div class="ml-2 text-sm" id="quest-likes-count"><?php echo is_array($questL) ? count($questL) : "0"; ?> Likes</div>
                     </div>
 
                     <script>
@@ -188,6 +179,9 @@ include __DIR__ . "/../datapages/header.php";
 
     </div>
 </div>
+
+
+<script src="/storage/js/like-to-question.js"></script>
 
 </body>
 </html>
