@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Title</title>
+</head>
+<body>
+
+<div class="w-[400px] flex flex-col mx-auto">
+  <span>Kategori Adı:</span>
+  <input type="text" id="category-name">
+  <span>Kategori Kodu:</span>
+  <input type="text" id="category-code">
+  <button id="ekle-btn">Ekle</button>
+</div>
+
+
+<script>
+  $(document).ready(() =>{
+    $("#ekle-btn").click(() =>{
+
+      $.ajax({
+        url: "http://localhost/api/admin/category",
+        method: "POST",
+        data: {
+          "action": "add",
+          "name": $("#category-name").val(),
+          "code": $("#category-code").val(),
+        },
+        success: (v1, v2) => {
+          console.log(v1);
+          console.log(v2);
+        },
+        error: (v1, v2) => {
+          console.log(v1);
+          console.log(v2);
+        }
+      });
+
+
+    });
+  });
+</script>
+
+</body>
+</html>

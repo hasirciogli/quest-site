@@ -1,0 +1,10 @@
+# enable apache rewrite engine
+RewriteEngine on
+
+# set your rewrite base
+# Edit this in your init method too if you script lives in a subfolder
+RewriteBase /api
+
+ 
+# Push every request to index.php
+RewriteRule ^(.*)$ api.php [QSA]
