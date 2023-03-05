@@ -16,108 +16,10 @@
     <?php echo configs_site_favicon; ?>
 
     <title>Soru Sor!</title>
-    <script>
-        function getHost(add = "") {
-            var cstr = window.location.toString();
-            return (cstr.substring(0, 5) == "https" ? "https" : "http") + "://" + window.location.hostname + add;
-        }
-        function kisalt(str, len) {
-            if (str.length > len) {
-                return str.substr(0, len) + "...";
-            }
 
-            return str;
-        }
 
-        class HaberText extends HTMLElement {
-            connectedCallback() {
-                this.questionId = (parseInt(this.getAttribute("qid")));
-                this.isUserSecret = (parseInt(this.getAttribute("is-secret")));
-                this.questionUserStatus = (parseInt(this.getAttribute("user-status")));
-                this.isUserMan = (parseInt(this.getAttribute("is-man")));
-                this.questionBaseImage = this.getAttribute("base-image") == "" || !this.getAttribute("base-image") ? getHost("/storage/image/site-images/noimage-2.png") : this.getAttribute("base-image");
-                this.questionUserImage = this.isUserSecret ? (this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png")) : (this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png"));
-                this.questionBaseHeader = this.getAttribute("base-header") ?? "undefined";
-                this.questionBaseContent = this.getAttribute("base-content") ?? "undefined";
-                this.questionBaseSharedDate = "11.01.2023 20:18";
-                this.questionBaseTotalReadMinute = "~4 Dakika";
+    <script src="/storage/js/public-requirements.js"></script>
 
-                this.questionUserBadge = `
-                    <img
-                        title="${this.questionUserStatus == 0 ? "YASAKLANMIŞ Hesap!" : this.questionUserStatus == 2 ? "Doğrulanmış Hesap!" : this.questionUserStatus == 3 ? "Özel Hesap" : this.questionUserStatus == 10 ? "Yönetici Hesabı" : "Yeni Üye"}"
-                        src="${this.questionUserStatus == 0 ? getHost("/storage/image/site-images/block.png") : this.questionUserStatus == 2 ? getHost("/storage/image/site-images/verify1.png") : this.questionUserStatus == 3 ? getHost("/storage/image/site-images/approved-red.png") : this.questionUserStatus == 10 ? getHost("/storage/image/site-images/shield1.png") : getHost("/storage/image/site-images/clover.png")}"
-                        class="h-5 ml-1"
-                    />
-                `;
-
-                this.questionUserName = this.getAttribute("user-name");
-                this.questionUserUserName = this.getAttribute("user-surname");
-                this.questionUser = this.isUserSecret ? "Gizli üye" : this.questionUserName + " " + this.questionUserUserName;
-                this.innerHTML = `
-
-                <div class="w-full">
-            <a href="/quest/${this.questionId}" class="relative block overflow-hidden rounded-lg border border-gray-100 border-b-0 shadow-md border border-gray-200" >
-
-                <img
-                        alt="${this.questionBaseImage}"
-                        src="${this.questionBaseImage}"
-                        class="h-56 w-full object-cover mb-5 ${this.questionBaseImage == "" || !this.questionBaseImage ? "" : ""}"
-                />
-
-                <div class="p-4 sm:p-6 lg:p-8">
-                    <span class="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600" ></span>
-
-                    <div class="sm:flex sm:justify-between sm:gap-4">
-                        <div>
-                            <h3 class="text-lg font-bold text-gray-900 sm:text-xl">
-                                ${this.questionBaseHeader}
-                            </h3>
-
-                            <div class="flex flex-row items-center mt-1">
-                                <p class="text-xs font-medium text-gray-600 ${this.questionUserStatus == 0 ? "line-through decoration-black" : ""}">&#x2022; ${this.questionUser}</p>
-                                ${this.questionUserBadge}
-                            </div>
-
-                        </div>
-
-                        <div class="hidden sm:block sm:shrink-0">
-                            <img
-                                    alt="Paul Clapton"
-                                    src="${this.questionUserImage}"
-                                    class="h-16 w-16 rounded-lg object-cover shadow-sm"
-                            />
-                        </div>
-                    </div>
-
-                    <div class="mt-4">
-                        <p class="max-w-[40ch] text-sm text-gray-500">
-                           ${this.questionBaseContent}
-                        </p>
-                    </div>
-
-                    <dl class="mt-6 flex gap-4 sm:gap-6">
-                        <div class="flex flex-col-reverse">
-                            <dt class="text-sm font-medium text-gray-600">Paylaşıldı</dt>
-                            <dd class="text-xs text-gray-500">${this.questionBaseSharedDate}</dd>
-                        </div>
-
-                        <div class="flex flex-col-reverse">
-                            <dt class="text-sm font-medium text-gray-600">Okuma Süresi</dt>
-                            <dd class="text-xs text-gray-500">${this.questionBaseTotalReadMinute}</dd>
-                        </div>
-                    </dl>
-                </div>
-
-            </a>
-        </div>
-
-                `;
-                this.style.color = "red";
-            }
-        }
-
-        customElements.define('mainmenu-question-basement', HaberText);
-    </script>
 </head>
 
 <body class="p-0 m-0">
@@ -276,6 +178,7 @@ include __DIR__ . "/../datapages/header.php";
         });
     });
 </script>
+<script src="/storage/js/custom-elements/index-cards.js"></script>
 </body>
 
 </html>

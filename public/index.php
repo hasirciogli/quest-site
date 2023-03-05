@@ -51,7 +51,6 @@ Router::get("/policy", function () {
     View::Show("../datapages/policy", pageTypes::PAGE_TYPE_NORMAL);
 });
 
-
 Router::Middleware("quest", true, function () {
     View::Show("quest", pageTypes::PAGE_TYPE_NORMAL);
 }, function () {

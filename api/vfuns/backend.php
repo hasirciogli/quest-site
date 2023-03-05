@@ -57,7 +57,9 @@ class PluginController
             $questsStatus = \CONTROLLERS\questsController::cfun()->likeQuestBySession($_POST["liketo"]);
 
             if ($questsStatus[0])
-                makeResponse(200, "Success", true, $questsStatus[1]);
+                makeResponse(200, "Success", true, [
+                    "err" => $questsStatus[1],
+                ]);
             else
                 makeResponse(200, "Error by like system", false, [
                     "err" => $questsStatus[1],

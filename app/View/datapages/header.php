@@ -25,8 +25,8 @@
             </a>
         </div>
 
-        <div class="flex flex-1 items-center justify-end gap-8">
-            <nav aria-label="Site Nav" class="hidden lg:flex lg:gap-4 lg:text-xs lg:font-bold lg:uppercase lg:tracking-wide lg:text-gray-500">
+        <div class="flex flex-1 items-center justify-end gap-2">
+            <nav aria-label="Site Nav" class="hidden lg:flex lg:gap-2 lg:text-xs lg:font-bold lg:uppercase lg:tracking-wide lg:text-gray-500">
                 <!--<a href="/about"
                    class="block h-16 border-b-4 border-transparent leading-[4rem] hover:border-current hover:text-red-700">
                     About
@@ -37,20 +37,18 @@
                     News
                 </a>-->
 
-                <a href="/products"
-                   class="block h-16 border-b-4 border-transparent leading-[4rem] hover:border-gray-600 hover:text-black">
+                <!--<a href="/products" class="block h-16 leading-[4rem] hover:text-black">
                     Var mı bilen?
-                </a>
+                </a>-->
 
-                <a href="/contact"
-                   class="block h-16 border-b-4 border-transparent leading-[4rem] hover:border-gray-600 hover:text-black">
-
+                <a href="/quest/add" class="block h-16 leading-[4rem] hover:text-black px-3">
+                    soru sor
                 </a>
             </nav>
 
             <div class="flex items-center">
                 <div class="flex items-center divide-x divide-gray-100 border-x border-gray-100">
-                        <span>
+                        <!--<span>
                             <a href="/cart" class="block border-b-4 border-transparent p-6 hover:border-gray-600">
                                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -60,7 +58,7 @@
 
                                 <span class="sr-only">Cart</span>
                             </a>
-                        </span>
+                        </span>-->
 
                     <span>
                             <a href="/profile" class="block border-b-4 border-transparent p-6 hover:border-gray-600">
@@ -74,7 +72,7 @@
                             </a>
                         </span>
 
-                    <span class="hidden sm:block">
+                    <!--<span class="hidden sm:block">
                             <a href="/search" class="block border-b-4 border-transparent p-6 hover:border-gray-600">
                                 <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke="currentColor">
@@ -84,7 +82,7 @@
 
                                 <span class="sr-only"> Search </span>
                             </a>
-                        </span>
+                        </span>-->
                 </div>
             </div>
         </div>

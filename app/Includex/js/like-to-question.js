@@ -21,15 +21,23 @@ $(document).ready(() => {
                     $("#make-unlike-button-for-quest")[0].classList.contains("hidden") ? $("#make-unlike-button-for-quest")[0].classList.remove("hidden") : "";
                 }
                 else{
+                    if(data.data.err = "Zaten beğenmişsin."){
+                        $("#make-like-button-for-quest")[0].classList.contains("hidden") ? "" : $("#make-like-button-for-quest")[0].classList.add("hidden");
+                        $("#make-unlike-button-for-quest")[0].classList.contains("hidden") ? $("#make-unlike-button-for-quest")[0].classList.remove("hidden") : "";
+
+                        toastr["info"](data.data.err, "Hayır efedimm !");
+                    }
+
                     if (data.data.err == "need-login")
                     {
                         window.location.href = getHostToLike("/auth");
                     }
+                    console.log("Javascript request error");
                 }
                 console.log(data);
             },
             error: (v1, v2) => {
-                console.log("Javascript istek hatası");
+                console.log("Javascript request error");
             }
         });
     });
@@ -50,7 +58,13 @@ $(document).ready(() => {
                     $("#make-unlike-button-for-quest")[0].classList.contains("hidden") ? "" : $("#make-unlike-button-for-quest")[0].classList.add("hidden");
                     $("#make-like-button-for-quest")[0].classList.contains("hidden") ? $("#make-like-button-for-quest")[0].classList.remove("hidden") : "";
                 }
-                console.log(data);
+                else if (data.data.err == 'Beğenmemişsin ki')
+                {
+                    $("#make-unlike-button-for-quest")[0].classList.contains("hidden") ? "" : $("#make-unlike-button-for-quest")[0].classList.add("hidden");
+                    $("#make-like-button-for-quest")[0].classList.contains("hidden") ? $("#make-like-button-for-quest")[0].classList.remove("hidden") : "";
+
+                    toastr["info"](data.data.err, "Hayır efedimm !");
+                }
             },
             error: (v1, v2) => {
                 console.log("Javascript istek hatası");
@@ -73,11 +87,11 @@ $(document).ready(() => {
                     $("#quest-likes-count").html(data.data + " Likes");
                 }
                 else{
-                    console.log(data);
+                    console.log("Javascript server internal error");
                 }
             },
             error: (v1, v2) => {
-                console.log("Javascript istek hatası");
+                console.log("Javascript request error");
             }
         });
     }, 3500);

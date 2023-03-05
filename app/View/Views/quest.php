@@ -4,6 +4,19 @@ $urli = \Router\Router::AnalyzeUri();
 
 $urli = explode("/", $urli);
 
+if (!isset($urli[2]) || $urli[2] == "" || $urli[2] == "add"){
+    if(\CONTROLLERS\userController::cfun()->isLogged())
+    {
+        require __DIR__ . "/addQuest.php";
+        return;
+    }
+    else{
+        header("Refresh: 2, url = /auth");
+        die("Giriş yapman gerek, Lütfen bekle...");
+    }
+
+    return;
+}
 
 if (!isset($urli[2]) || $urli[2] == "" || !is_numeric($urli[2]) || $urli[2] <= 0)
 {
