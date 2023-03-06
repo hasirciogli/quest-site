@@ -13,7 +13,7 @@ class questsController extends \DATABASE\FFDatabaseInternal
         $db = $this->init();
 
         if ($db) {
-            $v = $db->connection->prepare("SELECT * FROM quests LIMIT 50");
+            $v = $db->connection->prepare("SELECT * FROM quests ORDER BY created_at DESC LIMIT 50 ");
             $v2 = $v->execute([]);
             $v3 = $v->fetchAll(PDO::FETCH_ASSOC);
 
@@ -178,6 +178,47 @@ class questsController extends \DATABASE\FFDatabaseInternal
             }
             else{
                 return [false, "veritabanı hatası 1"];
+            }
+        }
+        return [false, "need-login"];
+    }
+    public function addNewWuestionBySession($header = "", $category = "", $content = "", $secretmode = 0, $imageurl = ""){
+        $sc = SessionController::CreateInstance();
+
+        if ($sc->Get("is_logged") == 1)
+        {
+            $suid = $sc->Get("logged_user_id");
+            $questU = \DATABASE\FFDatabase::cfun()->select("users")->where("id", $suid)->run()->get();
+
+            if ($questU != "no-record" && $questU)
+            {
+                if ($questU["status"] == 0)
+                    return [false, "user-banned"];
+
+                if ($header == "-")
+                    $header = "";
+
+                if ($category == "-")
+                    $category = "";
+
+                if ($content == "-")
+                    $content = "";
+
+                if ($imageurl == "-")
+                    $imageurl = "";
+
+                $addNewQuestStatus = \DATABASE\FFDatabase::cfun()->insert("quests", [["owner_id", $questU["id"]], ["category", $category], ["header", $header], ["content", $content], ["secret_mode", $secretmode], ["image_url", $imageurl]])->run();
+
+                if ($addNewQuestStatus->x)
+                {
+                    return [true, "added-successfully"];
+                }
+                else
+                    return [false, "no-error"];
+
+            }
+            else{
+                return [false, "database-error #1"];
             }
         }
         return [false, "need-login"];

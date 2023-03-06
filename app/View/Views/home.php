@@ -148,6 +148,8 @@ include __DIR__ . "/../datapages/header.php";
                             itemx.attr("is-man", parseInt(item.user_gender));
                             itemx.attr("user-status", parseInt(item.user_status));
                             itemx.attr("base-image", (item.image_url == null ? "" : item.image_url));
+                            itemx.attr("base-created-at", ((item.created_at == null || item.created_at == "") ? "" : item.created_at));
+                            itemx.attr("base-read-min", item.content.length / 10);
 
                             $("#qlist-1").append(itemx);
                         }
@@ -165,6 +167,8 @@ include __DIR__ . "/../datapages/header.php";
                             itemx.attr("user-surname", (item.user_surname));
                             itemx.attr("user-status", parseInt(item.user_status));
                             itemx.attr("base-image", (item.image_url == null ? "" : item.image_url));
+                            itemx.attr("base-created-at", ((item.created_at == null || item.created_at == "") ? "" : item.created_at));
+                            itemx.attr("base-read-min", item.content.length / 10);
 
                             $("#qlist-1").append(itemx);
                         }

@@ -9,3 +9,18 @@ function kisalt(str, len) {
 
     return str;
 }
+
+function ffMakeAlert(type, header, content)
+{
+    toastr[type](content, header);
+}
+
+function ffRouteOnSite(link)
+{
+    window.location.replace(getHost(link));
+}
+
+function ffRouteOtherSite(link)
+{
+    window.location.replace(link);
+}

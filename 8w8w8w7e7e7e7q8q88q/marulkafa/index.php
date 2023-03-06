@@ -24,7 +24,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800;900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&family=Quicksand:wght@300;400;500;600;700&display=swap');
     </style>
-    <title>HÜBA Fide</title>
+    <title>HÜBA Fide</title>s
 
     <style>
         .fffonts-nunito{
@@ -46,13 +46,14 @@
 </head>
 <body class="bg-white">
 
-<nav class="w-full border-b border-b-green-400">
-    <div class="flex flex-row mx-auto container h-14 md:h-[100px] bg-white">
+<nav class="w-full md:border-b md:border-b-green-400">
+    <div class="flex flex-row mx-auto container h-[100px] md:h-14 md:h-[100px] bg-white">
         <div class="flex flex-row items-center p-3 w-full md:w-[300px] h-full justify-center md:justify-start">
-            <div class="rounded-full w-10 h-10 bg-green-400 shadow-md">
-                <img src="https://i.ibb.co/k3YDvRZ/istockphoto-1164153261-612x612-removebg-preview.png" class="w-full h-full" alt="hüba fide logo designed by mustafa hasırcıoğlu">
+            <div class="rounded-full md:w-10 h-20 md:h-10 md:bg-green-400 md:shadow-md">
+                <img src="./images/wbg.png" class="w-full h-full md:hidden" alt="hüba fide logo designed by mustafa hasırcıoğlu" title="hüba fide logo designed by mustafa hasırcıoğlu">
+                <img src="https://i.ibb.co/k3YDvRZ/istockphoto-1164153261-612x612-removebg-preview.png" class="w-full h-full hidden md:flex" alt="hüba fide logo designed by mustafa hasırcıoğlu" title="hüba fide logo designed by mustafa hasırcıoğlu">
             </div>
-            <div class="flex h-full pt-2 pl-3 fffonts-merriweather font-bold text-2xl items-center">
+            <div class="hidden md:flex h-full pt-2 pl-3 fffonts-merriweather font-bold text-2xl items-center">
                 <span class="text-green-400 pr-1">HÜBA</span>FİDE
             </div>
         </div>
