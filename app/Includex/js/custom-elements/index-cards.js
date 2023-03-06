@@ -8,8 +8,26 @@ class HaberText extends HTMLElement {
         this.questionUserImage = this.isUserSecret ? (this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png")) : (this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png"));
         this.questionBaseHeader = this.getAttribute("base-header") ?? "undefined";
         this.questionBaseContent = this.getAttribute("base-content") ?? "undefined";
-        this.questionBaseSharedDate = "11.01.2023 20:18";
-        this.questionBaseTotalReadMinute = "~4 Dakika";
+        this.questionBaseSharedDate =  this.getAttribute("base-created-at") ?? "we dont know";
+        this.questionBaseTotalReadMinute =  this.getAttribute("base-read-min") ?? "we dont know";
+
+        if (this.questionBaseTotalReadMinute < 1)
+            this.questionBaseTotalReadMinute = "1 saniye"
+        else if (this.questionBaseTotalReadMinute > 60)
+        {
+            this.questionBaseTotalReadMinute = this.questionBaseTotalReadMinute / 60;
+            this.questionBaseTotalReadMinute += " Dakika";
+        }
+        else if (this.questionBaseTotalReadMinute > (60 * 60))
+        {
+            this.questionBaseTotalReadMinute = this.questionBaseTotalReadMinute / (60 * 60);
+            this.questionBaseTotalReadMinute += " Saat";
+        }
+        else{
+            this.questionBaseTotalReadMinute = Math.floor(this.questionBaseTotalReadMinute);
+            this.questionBaseTotalReadMinute += " Saniye"
+        }
+
 
         this.questionUserBadge = `
                     <img
@@ -32,6 +50,7 @@ class HaberText extends HTMLElement {
                         src="${this.questionBaseImage}"
                         loading='lazy'
                         class="h-56 w-full object-cover mb-5 ${this.questionBaseImage == "" || !this.questionBaseImage ? "" : ""}"
+                        onerror="this.onerror=null; this.src='/storage/image/site-images/noimage-2.png'"
                 />
 
                 <div class="p-4 sm:p-6 lg:p-8">

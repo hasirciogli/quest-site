@@ -81,14 +81,34 @@ class PluginController
                     "err" => $questsStatus[1],
                 ]);
         }
+        function addNewQuest() {
 
+            if (!PBSController::cfun()->checkNullOrBlankInPost(["category", "header", "content", "secret_mode", "image_url"]))
+                makeResponse(400, "Bad Request", false, [
+                    "err" => "please use correct post parameters",
+                ]);
 
+            $questsStatus = \CONTROLLERS\questsController::cfun()->addNewWuestionBySession($_POST["header"], $_POST["category"], $_POST["content"], $_POST["secret_mode"], $_POST["image_url"]);
+
+            if ($questsStatus[0])
+                makeResponse(200, "Success", true, $questsStatus[1]);
+            else
+                makeResponse(200, "Error by like system", false, [
+                    "err" => $questsStatus[1],
+                ]);
+        }
+
+        //naber arkadaşlar ben yani katıldım buranın amacı tam olarak nedir acaba ?
         $action = $_POST["action"];
 
         switch ($action)
         {
             case "list":
                 listQuests();
+                return;
+                break;
+            case "add":
+                addNewQuest();
                 return;
                 break;
             case "likec":

@@ -155,7 +155,7 @@ include __DIR__ . "/../datapages/header.php";
                     ?>
                 </div>
                 <div class="mt-5">
-                    <p><?php echo $quest["content"] ?></p>
+                    <p class="  overflow-hidden break-all"><?php echo $quest["content"] ?></p>
                     <div class="flex flex-row items-center mt-10">
                         <img src="/storage/image/site-images/hearth-blank.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "hidden" : ""; ?>" alt="" id="make-like-button-for-quest" base-quest-id="<?php echo $target_quest; ?>">
                         <img src="/storage/image/site-images/hearth-yellow.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "" : "hidden"; ?>" alt="" id="make-unlike-button-for-quest" base-quest-id="<?php echo $target_quest; ?>">
