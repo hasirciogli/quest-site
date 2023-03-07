@@ -31,7 +31,6 @@ include __DIR__ . "/../datapages/header.php";
 ?>
 
 
-
 <div class="container mx-auto min-h-[650px] transition-all duration-300">
     <div class="w-full h-[350px] overflow-hidden relative p-2 sm:p-3 transition-all duration-300">
 
@@ -46,12 +45,12 @@ include __DIR__ . "/../datapages/header.php";
         </div>
     </div>
 
-    <div class="w-full">
-        <span class="font-bold text-xl p-3">Filtre:</span>
+    <div class="w-full mt-2">
+        <span class="font-bold text-xl p-3">Son Paylaşılanlar:</span>
         <div class="w-full"></div>
     </div>
 
-    <div class="p-3 overflow-hidden">
+    <div class="hidden p-3 overflow-hidden">
         Buraya filtre sistemi koyulacak
     </div>
 
@@ -118,70 +117,7 @@ include __DIR__ . "/../datapages/header.php";
 </div>
 
 
-<script>
-
-
-
-
-    $(document).ready(() => {
-
-        $.ajax({
-            url: getHost() + "/api/backend/quests",
-            method: "POST",
-            data: {
-                "action": "list",
-            },
-            success: (data, status) => {
-                console.log(data);
-
-                if (data.status) {
-                    data.data.forEach((item) => {
-                        if (item.secret_mode) {
-                            var itemx = $("<mainmenu-question-basement></mainmenu-question-basement>");
-
-                            itemx.attr("qid", item.quest_id);
-
-                            itemx.attr("base-header", item.header);
-                            itemx.attr("base-content", kisalt(item.content, 30));
-
-                            itemx.attr("is-secret", item.secret_mode ? 1 : 0);
-                            itemx.attr("is-man", parseInt(item.user_gender));
-                            itemx.attr("user-status", parseInt(item.user_status));
-                            itemx.attr("base-image", (item.image_url == null ? "" : item.image_url));
-                            itemx.attr("base-created-at", ((item.created_at == null || item.created_at == "") ? "" : item.created_at));
-                            itemx.attr("base-read-min", item.content.length / 10);
-
-                            $("#qlist-1").append(itemx);
-                        }
-                        else {
-                            var itemx = $("<mainmenu-question-basement></mainmenu-question-basement>");
-
-                            itemx.attr("qid", item.quest_id);
-
-                            itemx.attr("base-header", item.header);
-                            itemx.attr("base-content", kisalt(item.content, 30));
-
-                            itemx.attr("is-secret", item.secret_mode ? 1 : 0);
-                            itemx.attr("is-man", parseInt(item.user_gender));
-                            itemx.attr("user-name", (item.user_name));
-                            itemx.attr("user-surname", (item.user_surname));
-                            itemx.attr("user-status", parseInt(item.user_status));
-                            itemx.attr("base-image", (item.image_url == null ? "" : item.image_url));
-                            itemx.attr("base-created-at", ((item.created_at == null || item.created_at == "") ? "" : item.created_at));
-                            itemx.attr("base-read-min", item.content.length / 10);
-
-                            $("#qlist-1").append(itemx);
-                        }
-                    })
-                }
-            },
-            error: (v1, v2) => {
-                console.log(v1);
-                console.log(v2);
-            }
-        });
-    });
-</script>
+<script src="/storage/js/home/load-quests.js"></script>
 <script src="/storage/js/custom-elements/index-cards.js"></script>
 </body>
 
