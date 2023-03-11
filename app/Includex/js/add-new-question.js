@@ -56,8 +56,9 @@ $(document).ready(() => {
             y = zrect.y - z1.height;
         }
 
-        $("#qadd-mover-base").animate({"left": x + "px", "top": y + "px"}, {duration: 200});
-    }, 200);
+        $("#qadd-mover-base").animate({"left": x + "px", "top": y + "px"}, {duration: 10});
+    }, 500);
+
     $("#qadd-header").keyup(function () {
         var tval = $(this).val();
 
@@ -219,6 +220,6 @@ $(document).ready(() => {
     });
 
     $("#cancel-a-new-question").click(() => {
-
+        window.location.href = getHost("/");
     });
 });

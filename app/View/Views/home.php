@@ -1,19 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-            integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <?php echo configs_site_favicon; ?>
+    <?php echo configs_site_libs; ?>
+    <?php echo configs_adsense_gtag; ?>
 
     <title>Soru Sor!</title>
 
@@ -22,7 +17,7 @@
 
 </head>
 
-<body class="p-0 m-0">
+<body class="p-0 m-0 dark:bg-dc-50">
 
 <?php
 
@@ -46,7 +41,7 @@ include __DIR__ . "/../datapages/header.php";
     </div>
 
     <div class="w-full mt-2">
-        <span class="font-bold text-xl p-3">Son Paylaşılanlar:</span>
+        <span class="font-bold text-xl p-3 dark:text-white">Son Paylaşılanlar:</span>
         <div class="w-full"></div>
     </div>
 

@@ -27,6 +27,15 @@ if (framework_is_debug_mode) {
         die();
     });
 }
+Router::get("/xmlmap", function () {
+    //Router::Route("login");
+    View::Show("./../aSeo/sitemap1", pageTypes::PAGE_TYPE_NORMAL);
+});
+
+Router::get("/Ads.txt", function () {
+    //Router::Route("login");
+    View::Show("./../aSeo/adstxt", pageTypes::PAGE_TYPE_NORMAL);
+});
 
 Router::get("/", function () {
     //Router::Route("login");

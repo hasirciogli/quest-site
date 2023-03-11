@@ -43,27 +43,27 @@ class HaberText extends HTMLElement {
         this.innerHTML = `
 
                 <div class="w-full">
-            <a href="/quest/${this.questionId}" class="relative block overflow-hidden rounded-lg border border-gray-100 border-b-0 shadow-md border border-gray-200" >
+                <a href="/quest/${this.questionId}" class="relative block overflow-hidden rounded-lg border dark:bg-dc-100 dark:border-1 border-gray-200 shadow-md dark:shadow-none dark:border-dhover-400">
 
                 <img
                         alt="${this.questionBaseImage}"
                         src="${this.questionBaseImage}"
                         loading='lazy'
-                        class="h-56 w-full object-cover mb-5 ${this.questionBaseImage == "" || !this.questionBaseImage ? "" : ""}"
+                        class="h-56 w-full object-cover mb-5 dark:border-b dark:border-b-dhover-300 ${this.questionBaseImage == "" || !this.questionBaseImage ? "" : ""}"
                         onerror="this.onerror=null; this.src='/storage/image/site-images/noimage-2.png'"
                 />
 
                 <div class="p-4 sm:p-6 lg:p-8">
-                    <span class="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600" ></span>
+                    <!--<span class="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600" ></span>-->
 
                     <div class="sm:flex sm:justify-between sm:gap-4">
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900 sm:text-xl">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2 sm:text-lg dark:text-white">
                                 ${this.questionBaseHeader}
                             </h3>
 
                             <div class="flex flex-row items-center mt-1">
-                                <p class="text-xs font-medium text-gray-600 ${this.questionUserStatus == 0 ? "line-through decoration-black" : ""}">&#x2022; ${this.questionUser}</p>
+                                <p class="text-xs font-medium text-gray-600 dark:text-white ${this.questionUserStatus == 0 ? "line-through decoration-black" : ""}">&#x2022; ${this.questionUser}</p>
                                 ${this.questionUserBadge}
                             </div>
 
@@ -71,29 +71,29 @@ class HaberText extends HTMLElement {
 
                         <div class="hidden sm:block sm:shrink-0">
                             <img
-                                    alt="Paul Clapton"
                                     loading='lazy'
                                     src="${this.questionUserImage}"
+                                    title="${this.isUserSecret ? "Gizli üye :)" : this.questionUserName }"
                                     class="h-16 w-16 rounded-lg object-cover shadow-sm"
                             />
                         </div>
                     </div>
 
-                    <div class="mt-4">
-                        <p class="max-w-[40ch] text-sm text-gray-500">
+                    <div class="mt-5">
+                        <p class="max-w-[40ch] text-sm text-gray-500 dark:text-white">
                            ${this.questionBaseContent}
                         </p>
                     </div>
 
-                    <dl class="mt-6 flex gap-4 sm:gap-6">
+                    <dl class="mt-10 flex gap-4 sm:gap-6">
                         <div class="flex flex-col-reverse">
-                            <dt class="text-sm font-medium text-gray-600">Paylaşıldı</dt>
-                            <dd class="text-xs text-gray-500">${this.questionBaseSharedDate}</dd>
+                            <dt class="text-sm font-medium text-gray-600 dark:text-gray-100 mt-1">Paylaşıldı</dt>
+                            <dd class="text-xs text-gray-500 dark:text-white mt-1">${this.questionBaseSharedDate}</dd>
                         </div>
 
                         <div class="flex flex-col-reverse">
-                            <dt class="text-sm font-medium text-gray-600">Okuma Süresi</dt>
-                            <dd class="text-xs text-gray-500">${this.questionBaseTotalReadMinute}</dd>
+                            <dt class="text-sm font-medium text-gray-600 dark:text-gray-100 mt-1">Okuma Süresi</dt>
+                            <dd class="text-xs text-gray-500 dark:text-white">${this.questionBaseTotalReadMinute}</dd>
                         </div>
                     </dl>
                 </div>

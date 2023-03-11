@@ -85,13 +85,13 @@ $sessionUser = $userController->getSessionUser();
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <?php echo configs_site_libs; ?>
-    <?php echo configs_site_favicon; ?>
+    <?php echo configs_adsense_gtag; ?>
 
     <script src="/storage/js/public-requirements.js"></script>
 
-    <title>Soru Sor!</title>
+    <title><?php echo $quest["content"] ?></title>
 </head>
-<body>
+<body class="p-0 m-0 dark:bg-dc-50">
 
 
 <?php
@@ -105,33 +105,33 @@ include __DIR__ . "/../datapages/header.php";
 
     </div>
 
-    <div class="flex flex-col w-full">
+    <div class="flex xl:container xl:mx-auto flex-col w-full">
 
-        <div class="flex fex-row w-full">
-            <div class="w-full lg:w-8/12 p-2">
-                <div class="flex flex-col w-full h-full bg-white border border-gray-200 shadow rounded p-5">
-                    <div class="flex flex-row w-full">
-                        <img src="/storage/image/site-images/question-mark.png" class="h-10 w-10" alt="">
-                        <div class="flex items-center w-full p-2">
+        <div class="flex flex-col lg:flex-row w-full">
+            <div class="w-full lg:w-8/12 w-full p-2">
+                <div class="flex flex-col w-full h-full dark:bg-dc-50 border border-gray-200 dark:border-dhover-400 shadow dark:shadow-dhover-500 rounded p-5">
+                    <div class="flex flex-row items-center w-full h-10 gap-3">
+                        <img src="/storage/image/site-images/question-mark.png" class="h-6 w-6" alt="">
+                        <div class="flex items-center w-full">
                             <?php
 
                             foreach (explode(",", $quest["category"]) as $item) {
                                 if (!$item || $item == "")
                                     continue;
 
-                                echo '<a href="/category/'.$item.'"><span class="bg-slate-200 rounded text-gray-600 text-xs p-1 mr-1 hover:bg-green-500 hover:text-white duration-300">'.$item.'</span></a>';
+                                echo '<a href="/category/'.$item.'"><span class="bg-slate-200 dark:bg-dh-50 dark:text-gray-400 dark:hover:bg-dhover-500 dark:hover:text-gray-400 rounded text-gray-600 text-xs p-1 mr-1 hover:bg-green-500 hover:text-white duration-300">'.$item.'</span></a>';
                             }
 
                             ?>
                         </div>
                         <div class="flex flex-row w-full h-full justify-end">
                             <div class="flex items-center">
-                                <img src="/storage/image/site-images/trending-topic.gif" class="h-10" title="Popüler" alt="">
+                                <img src="/storage/image/site-images/trending-topic.gif" class="h-10 bg-transparent rounded-full" title="Popüler" alt="">
                             </div>
                         </div>
 
                     </div>
-                    <h1 class="mt-3 font-semibold text-3xl fffonts-nunito"><?php echo $quest["header"] ?></h1>
+                    <h1 class="mt-3 font-semibold text-3xl fffonts-nunito dark:text-white""><?php echo $quest["header"] ?></h1>
                     <div class="flex flex-row mt-5">
                         <img src="/storage/image/site-images/user-man.png" class="w-20 h-20" alt="">
                         <?php
@@ -140,7 +140,7 @@ include __DIR__ . "/../datapages/header.php";
                         {
                             ?>
 
-                            <div class="flex flex-col justify-center h-full p-2">
+                            <div class="flex flex-col justify-center h-full p-2 dark:text-white">
                                 <div class="fffonts-golostext">Gizli Üye</div>
                                 <div class="fffonts-golostext">Level: xxx | Yaş: xx</div>
                             </div>
@@ -153,15 +153,15 @@ include __DIR__ . "/../datapages/header.php";
                             //$____bAe____  = $____diff____->format('%y.%m.%d : %H:%i:%s');
                             $____bAe____  = $____diff____->format('%y.%m.%d');
                             ?>
-                            <div class="flex flex-col justify-center h-full p-2">
+                            <div class="flex flex-col justify-center h-full p-2 dark:text-white"">
                                 <a href="/user-profile/<?php echo $questU["id"] ?>"><div class="fffonts-golostext font-semibold"><?php echo $questU["name"] . " " . $questU["surname"];  ?></div></a>
                                 <div class="fffonts-golostext" title="Kişini yaşı sırasıya YIL AY GÜN olarak belirtilmiştir">Level: <?php echo $questU["level"] ?> | Yaş: <?php echo (isset($questU["birth_date"]) && $questU["birth_date"] != "" ? $____bAe____ : "Belirtilmemiş"); ?></div>
                             </div>
                         <?php }
                         ?>
                     </div>
-                    <div class="mt-5">
-                        <p class="  overflow-hidden break-all"><?php echo $quest["content"] ?></p>
+                    <div class="mt-5 dark:text-white"">
+                        <p class="overflow-hidden break-all"><?php echo $quest["content"] ?></p>
                         <div class="flex flex-row items-center mt-10">
                             <img src="/storage/image/site-images/hearth-blank.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "hidden" : ""; ?>" alt="" id="make-like-button-for-quest" base-quest-id="<?php echo $target_quest; ?>">
                             <img src="/storage/image/site-images/hearth-yellow.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "" : "hidden"; ?>" alt="" id="make-unlike-button-for-quest" base-quest-id="<?php echo $target_quest; ?>">
@@ -187,15 +187,15 @@ include __DIR__ . "/../datapages/header.php";
             </div>
 
             <div class="hidden lg:flex w-4/12 p-2">
-                <div class="flex w-full h-full bg-white border border-gray-200 shadow rounded p-3">
-                    <div class="font-semibold text-xl fffonts-golostext">Benzer Sorular</div>
+                <div class="flex w-full h-full dark:bg-dc-50 border border-gray-200 dark:border-dhover-400 shadow dark:shadow-dhover-500 rounded p-3 dark:text-white">
+                    <div class="font-semibold text-md fffonts-exo2">Benzer Sorular</div>
                 </div>
             </div>
         </div>
 
         <div class="w-full p-2">
             <div class="w-full lg:w-8/12 rounded text-xl fffonts-golostext">
-                <span class="text-base sm:text-xl">Yorumlar <span id="q-coments-count" class="ml-1 text-sm font-normal">0</span></span>
+                <span class="text-base sm:text-md dark:text-white">Yorumlar <span id="q-coments-count" class="ml-1 text-sm font-normal">1453</span></span>
 
 
                 <?php if($userController->isLogged()){
@@ -203,26 +203,26 @@ include __DIR__ . "/../datapages/header.php";
                     $nLink = ($isMan == 1) ? ("/storage/image/site-images/user-man.png") : ("/storage/image/site-images/user-woman.png");
                     ?>
 
-                    <div class="mt-2 mb-2 flex w-full min-h-[30px] sm:min-h-[140px] rounded overflow-hidden border shadow duration-300 transition-all">
+                    <div class="mt-2 mb-2 flex w-full min-h-[30px] sm:min-h-[140px] rounded overflow-hidden border dark:border-dhover-400 duration-300 transition-all">
                         <div class="hidden sm:flex justify-center duration-300 transition-all">
                             <img
-                                    class="m-2 w-full h-full w-[60px] h-[60px] duration-300 transition-all"
+                                    class="m-2 w-[60px] h-[60px] duration-300 transition-all"
                                     src="<?php echo $sessionUser[1]["image_uri"]?>"
                                     alt=""
                                     onerror="this.onerror=null; this.src='<?php echo $nLink;?>'"
                             >
                         </div>
-                        <div class="border-l flex flex-col w-full h-full p-3 duration-300 transition-all">
+                        <div class="border-l dark:border-dhover-300 flex flex-col w-full h-full p-3 duration-300 transition-all">
 
-                            <span class="text-xs sm:text-base text-black">Düşünceni paylaş</span>
+                            <span class="text-xs sm:text-base text-black dark:text-white">Düşünceni paylaş</span>
 
                             <div class="text-xs sm:text-base w-full min-h-[30px] sm:min-h-[160px] mt-2 duration-300 transition-all">
-                                <textarea name="" id="" class="flex w-full min-h-[100px] sm:min-h-[160px] border-slate-300 focus:ring-0 focus:border-slate-300 duration-300 transition-all"></textarea>
+                                <textarea name="" id="" class="text-xs sm:text-sm flex w-full min-h-[100px] sm:min-h-[160px] bg-transparent dark:text-white outline-0 ring-0 border-1 border-slate-200 dark:border-dhover-300 focus:ring-0 focus:outline-0 focus:border-slate-400 dark:focus:border-dhover-50 dark:focus:border-1 dark:focus:border duration-300 transition-all"></textarea>
                             </div>
 
                             <div class="text-sm sm:text-base flex w-full justify-end text-sm mt-3 duration-300 transition-all">
-                                <button id="cancel-a-new-question" class="text-xs sm:text-base bg-red-600 mr-3 p-2 text-white outline outline-0 hover:outline-1 hover:outline-red-800 duration-300 rounded fffonts-golostext text-semibold">İptal et</button>
-                                <button id="ask-a-new-question" class="text-xs sm:text-base bg-blue-600 p-2 text-white outline outline-0 hover:outline-1 hover:outline-blue-800 duration-300 rounded fffonts-golostext text-semibold disabled:text-slate-300 disabled disabled:bg-blue-800">paylaş</button>
+                                <button id="cancel-a-new-question" class="text-xs bg-red-600 mr-3 py-2 px-3 text-white outline-0 hover:outline-1 hover:outline duration-300 rounded fffonts-golostext text-normal">İptal et</button>
+                                <button id="ask-a-new-question" class="text-xs bg-blue-600 py-2 px-3 text-white outline-0 border-0 ring-0 hover:outline-1 hover:outline-white hover:outline duration-300 rounded fffonts-golostext text-normal disabled:text-slate-300 disabled:bg-blue-800">paylaş</button>
                             </div>
 
                         </div>
@@ -230,8 +230,18 @@ include __DIR__ . "/../datapages/header.php";
 
                 <?php }?>
 
+
+                <quest-comment
+                        c-user-name="Mustafa"
+                        c-is-man="1"
+                        c-is-secret="0"
+                ></quest-comment>
+
+
             </div>
         </div>
+
+
 
     </div>
 
@@ -241,6 +251,7 @@ include __DIR__ . "/../datapages/header.php";
 </div>
 
 
+<script src="/storage/js/custom-elements/comment-cards.js"></script>
 <script src="/storage/js/like-to-question.js"></script>
 
 </body>

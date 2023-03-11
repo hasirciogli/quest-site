@@ -10,18 +10,20 @@ $sessionUser = $userControllerResponse[1];
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <?php echo configs_site_libs; ?>
+    <?php echo configs_adsense_gtag; ?>
 
     <title>Profile of <?php echo $sessionUser["name"] . " " . $sessionUser["surname"]; ?></title>
 </head>
 
-<body>
+<body class="m-0 p-0 dark:bg-dc-50">
 
 
     <?php
@@ -31,11 +33,11 @@ $sessionUser = $userControllerResponse[1];
     ?>
 
 
-    <div class="flex flex-col md:flex-row md:flex-row container mx-auto md:rounded overflow-hidden md:mt-5 md:border border-gray-200 shadow-md shadow-gray-200 duration-700">
-        <div class="flex flex-col md:w-5/12 lg:w-4/12 xl:w-3/12 md:h-[600px] md:border-r md:border-r-gray-300 duration-700">
-            <div class="flex flex-row w-full h-[135px] items-center justify-start p-5 border-b border-b-gray-200 duration-700">
+    <div class="flex flex-col md:flex-row md:flex-row container mx-auto md:rounded overflow-hidden md:mt-5 md:border dark:border-dhover-300 border-gray-200 shadow-md shadow-gray-200 dark:shadow-dhover-400 duration-700">
+        <div class="flex flex-col md:w-5/12 lg:w-4/12 xl:w-3/12 md:h-[600px] md:border-r md:border-r-gray-300 dark:border-dhover-300 duration-700">
+            <div class="flex flex-row w-full h-[135px] items-center justify-start p-5 border-b border-b-gray-200 dark:border-dhover-300 duration-700">
                 <img src="/storage/image/site-images/user-man.png" class="w-16 md:w-20 duration-700" alt="">
-                <div class="flex flex-col ml-2">
+                <div class="flex flex-col ml-2 dark:text-white">
                     <?php
 
                     $____dogumTarihi____ = isset($sessionUser["birth_date"]) && $sessionUser["birth_date"] != "" ? $sessionUser["birth_date"] : date("Y-m-d");
@@ -51,23 +53,23 @@ $sessionUser = $userControllerResponse[1];
                 </div>
             </div>
 
-            <div class="hidden md:flex h-full flex-col justify-between  bg-white">
+            <div class="hidden md:flex h-full flex-col justify-between">
                 <div class="">
                     <nav aria-label="Main Nav" class="flex flex-col space-y-1">
 
-                        <a href="#" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-700">
+                        <a href="#" class="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-dh-100 hover:text-gray-700">
                             <img src="/storage/image/site-images/gear.png" class="h-5 w-5 opacity-75" alt="">
 
                             <span class="text-sm font-medium"> Genel ayarlar </span>
                         </a>
 
-                        <a href="#" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-700">
+                        <a href="#" class="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-dh-100 hover:text-gray-700">
                             <img src="/storage/image/site-images/security.png" class="h-5 w-5 opacity-100" alt="">
 
                             <span class="text-sm font-medium"> Güvenlik ayarları </span>
                         </a>
 
-                        <a href="/logout" class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-700">
+                        <a href="/logout" class="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-dh-100 hover:text-gray-700">
                             <img src="/storage/image/site-images/logout.png" class="h-5 w-5 opacity-100" alt="">
 
                             <span class="text-sm font-medium"> Çıkış yap </span>

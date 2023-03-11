@@ -15,24 +15,25 @@ $(document).ready(() => {
             success: (data, status) => {
                 if (data.status)
                 {
-                    toastr["success"]("Tabi efendim", "Beğeni Eklendi");
+                    ffMakeAlert("success", "Fırıncı bu işe onay verdi", "Beğendin!");
 
                     $("#make-like-button-for-quest")[0].classList.contains("hidden") ? "" : $("#make-like-button-for-quest")[0].classList.add("hidden");
                     $("#make-unlike-button-for-quest")[0].classList.contains("hidden") ? $("#make-unlike-button-for-quest")[0].classList.remove("hidden") : "";
                 }
                 else{
-                    if(data.data.err = "Zaten beğenmişsin."){
+                    if(data.data.err == "Zaten beğenmişsin."){
                         $("#make-like-button-for-quest")[0].classList.contains("hidden") ? "" : $("#make-like-button-for-quest")[0].classList.add("hidden");
                         $("#make-unlike-button-for-quest")[0].classList.contains("hidden") ? $("#make-unlike-button-for-quest")[0].classList.remove("hidden") : "";
 
-                        toastr["info"](data.data.err, "Hayır efedimm !");
+                        ffMakeAlert("error", "Sanırım yanlışlık olmuş!", "Çünki halihazırda beğenmiş durumdasın.");
+                    }
+                    else if (data.data.err == "need-login")
+                    {
+                        ffMakeAlert("info", "Ufacık bir sıkıntı", "Ilk önce giriş yapman gerek");
+                        //window.location.href = getHostToLike("/auth");
                     }
 
-                    if (data.data.err == "need-login")
-                    {
-                        window.location.href = getHostToLike("/auth");
-                    }
-                    console.log("Javascript request error");
+                    //console.log("Javascript request error");
                 }
                 console.log(data);
             },
@@ -53,7 +54,7 @@ $(document).ready(() => {
             success: (data, status) => {
                 if (data.status)
                 {
-                    toastr["success"]("Tabi efendim", "Beğeni Silindi");
+                    ffMakeAlert("success", "Çaycı kabul etti", "Beğeni kaldırıldı");
 
                     $("#make-unlike-button-for-quest")[0].classList.contains("hidden") ? "" : $("#make-unlike-button-for-quest")[0].classList.add("hidden");
                     $("#make-like-button-for-quest")[0].classList.contains("hidden") ? $("#make-like-button-for-quest")[0].classList.remove("hidden") : "";
@@ -63,7 +64,7 @@ $(document).ready(() => {
                     $("#make-unlike-button-for-quest")[0].classList.contains("hidden") ? "" : $("#make-unlike-button-for-quest")[0].classList.add("hidden");
                     $("#make-like-button-for-quest")[0].classList.contains("hidden") ? $("#make-like-button-for-quest")[0].classList.remove("hidden") : "";
 
-                    toastr["info"](data.data.err, "Hayır efedimm !");
+                    ffMakeAlert("error", "Çaycı zam yaptı", "Zaten beğenmemişsin.");
                 }
             },
             error: (v1, v2) => {

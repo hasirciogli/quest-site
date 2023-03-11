@@ -130,13 +130,13 @@ class questsController extends \DATABASE\FFDatabaseInternal
                 }
                 else{
                     if ($questL && $questL != "no-record")
-                        return [false, "Zaten beğenmişsin."];
+                        return [false, "Zaten beğenmişsin." ];
                     else
-                        return [false, "veritabanı hatası 111"];
+                        return [false, "veritabanı hatası 1"];
                 }
             }
             else{
-                return [false, "veritabanı hatası 1"];
+                return [false, "veritabanı hatası 2"];
             }
         }
         return [false, "need-login"];
