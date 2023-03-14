@@ -43,8 +43,8 @@ if ($isUserLogged)
     </div>
 </div>
 
-<header aria-label="Site Header" class="border-b border-gray-100 dark:border-dh-100 shadow dark:bg-dh-50">
-    <div class="mx-auto flex h-16 max-w-screen-2xl items-center justify-between sm:px-6 lg:px-8">
+<header aria-label="Site Header" class="flex w-full border-b border-gray-100 dark:border-dh-100 shadow dark:bg-dh-50">
+    <div class="flex w-full mx-auto flex h-16 max-w-screen-2xl items-center justify-between sm:px-6 lg:px-8">
         <div class="flex items-center gap-4">
             <button type="button" class="ml-3 sm:ml-0 p-2 lg:hidden" id="open-mobile-sidebar_btn">
                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -110,8 +110,6 @@ if ($isUserLogged)
     $(document).ready(() => {
         var open_mobile_sidebar_animating = false;
         $("#open-mobile-sidebar_btn").click(() => {
-
-            console.log("31");
 
             $("#mobile-sidebar").css("opacity", "0");
             $("#mobile-sidebar")[0].classList.remove("hidden");

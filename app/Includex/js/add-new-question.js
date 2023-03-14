@@ -200,7 +200,7 @@ $(document).ready(() => {
                     $("#ask-a-new-question")[0].classList.add("hidden");
                     $("#cancel-a-new-question")[0].classList.add("hidden");
 
-                    ffMakeAlert("success", "Başarılı!", "Yazın başarıyla yalaşıldı");
+                    ffMakeAlert("success", "Başarılı!", data.data);
                     qaddBtnDisabledCheck = false;
 
                     setTimeout(() => {
@@ -208,7 +208,7 @@ $(document).ready(() => {
                     }, 2000);
                 }
                 else{
-                    ffMakeAlert("success", "Başarılı!", "Belirlenemeyen hata");
+                    ffMakeAlert("error", "Başarılı!", data.data.err);
                     qaddBtnDisabledCheck = false;
                 }
             },

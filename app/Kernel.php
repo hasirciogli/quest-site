@@ -14,6 +14,7 @@ require $_SERVER["DOCUMENT_ROOT"] . "/app/FFunctions/ErrorHandler.php";
 require $_SERVER["DOCUMENT_ROOT"] . "/app/FFunctions/FCrypter.php";
 require $_SERVER["DOCUMENT_ROOT"] . "/app/FFunctions/FrameworkFunctions.php";
 require $_SERVER["DOCUMENT_ROOT"] . "/app/FFunctions/DataLogger.php";
+require $_SERVER["DOCUMENT_ROOT"] . "/app/FFunctions/phpbase64image.php";
 
 
 require $_SERVER["DOCUMENT_ROOT"] . "/app/Models/SessionModel.php";
@@ -26,6 +27,7 @@ require $_SERVER["DOCUMENT_ROOT"] . "/app/Controllers/OwnerController.php";
 require $_SERVER["DOCUMENT_ROOT"] . "/app/Controllers/userController.php";
 require $_SERVER["DOCUMENT_ROOT"] . "/app/Controllers/questsController.php";
 require $_SERVER["DOCUMENT_ROOT"] . "/app/Controllers/categoryController.php";
+require $_SERVER["DOCUMENT_ROOT"] . "/app/Controllers/commentsController.php";
 
 
 require $_SERVER["DOCUMENT_ROOT"] . "/app/Route/Router.php";

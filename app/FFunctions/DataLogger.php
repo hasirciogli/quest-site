@@ -2,7 +2,6 @@
 
 namespace DataLogger;
 
-use DATABASE\Database;
 use DATABASE\FFDatabase;
 
 enum DATALOGGER_LOG_TYPE: int

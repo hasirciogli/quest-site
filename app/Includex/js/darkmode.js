@@ -14,7 +14,7 @@ $(document).ready(() => {
     if (!$("body")[0].classList.contains("duration-300"))
         $("body")[0].classList.add("duration-300");
 
-    $("body > *").each(function (index) {
+    $("body *").each(function (index) {
         if (!$(this)[0].classList.contains("duration-300"))
             $(this)[0].classList.add("duration-300");
 

@@ -2,6 +2,7 @@
 
 namespace CONTROLLERS;
 use PDO;
+use PhpBase64Image\phpbase64image;
 use SessionController\SessionController;
 
 class userController extends \DATABASE\FFDatabaseInternal
@@ -9,6 +10,21 @@ class userController extends \DATABASE\FFDatabaseInternal
     public function isLogged()
     {
         return SessionController::CreateInstance()->Get("is_logged") == 1 ? true : false;
+    }
+
+    public function checkProfileCompletedStatus()
+    {
+        if (!$this->isLogged())
+        {
+            \Router\Router::Route("auth");
+            die(":)");
+        }
+
+        if($this->getSessionUser()[1]["profile_completed"] == "0")
+        {
+            \Router\Router::Route("makeprofile");
+            die(":)");
+        }
     }
 
     public function login($username,  $password)
@@ -26,7 +42,7 @@ class userController extends \DATABASE\FFDatabaseInternal
                 return [true, "Giriş Başarılı, Yönlendiriliyorsunuz..."];
             }
             else{
-                return [false, "Belirsiz Hata #458"];
+                return [false, "Böyle bir kullanıcı bulunmamaktadır."];
             }
         }
         else{
@@ -77,6 +93,63 @@ class userController extends \DATABASE\FFDatabaseInternal
         }
         else{
             return [false, "Belirsiz Hata #99"];
+        }
+    }
+    public function makeprofile($name,  $gender, $bdate, $job, $pp)
+    {
+        $sc = SessionController::CreateInstance();
+
+        if ($sc->Get("is_logged") == 0)
+            return [false, "lk önce giriş yapmalısın"];
+
+        $sessionUser = userController::cfun()->getSessionUser()[1];
+
+        if (strlen($name) < 3 || strlen($name) > 30)
+            return [false, "Adın en az 3, en fazla 30 karater olmalıdır"];
+
+        if (strlen($gender) != 0 || strlen($gender) != 1)
+            return [false, "? :d"];
+
+
+
+        $image_data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $pp));
+
+        if (((strlen($image_data) / 1000) / 1000) > 2)
+            return [false, "Lütfen resim boyutunu 2mb veya daha az olarak belirleyin."];
+
+        $image_header = substr($image_data, 0, 3);
+
+        if ($image_header == "\xFF\xD8\xFF" || $image_header == "\x89\x50\x4E" || $image_header == "\x47\x49\x46") {
+
+            $ures = \DATABASE\FFDatabase::cfun()->select("users")->where("id", $sessionUser["id"])->run()->get();
+
+            if ($ures)
+            {
+                if ($ures != "no-record" && is_array($ures))
+                {
+                    return [false, "Kullanıcı Zaten Kayıtlı"];
+                }
+                else{
+                    if ($ures == "no-record")
+                    {
+                        $registerResult = \DATABASE\FFDatabase::cfun()->insert("users", [["username", $username], ["password", $password]])->run();
+                        if ($registerResult->x)
+                        {
+                            return [true, "Kayıt başarılı, Lütfen giriş yapın"];
+                        }
+                        else{
+                            return [false, "Belirsiz Hata $584"];
+                        }
+                    }
+                    else
+                        return [false, "Belirsiz Hata #88"];
+                }
+            }
+            else{
+                return [false, "Belirsiz Hata #99"];
+            }
+        } else {
+            return [false, "Lütfen geçerli bir resim dosyası gönder"];
         }
     }
 

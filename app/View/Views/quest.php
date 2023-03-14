@@ -7,6 +7,7 @@ $urli = explode("/", $urli);
 if (!isset($urli[2]) || $urli[2] == "" || $urli[2] == "add"){
     if(\CONTROLLERS\userController::cfun()->isLogged())
     {
+        \CONTROLLERS\userController::cfun()->checkProfileCompletedStatus();
         require __DIR__ . "/addQuest.php";
         return;
     }
@@ -85,7 +86,7 @@ $sessionUser = $userController->getSessionUser();
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <?php echo configs_site_libs; ?>
-    <?php echo configs_adsense_gtag; ?>
+    <?php echo configs_adsense_cfg; ?>
 
     <script src="/storage/js/public-requirements.js"></script>
 
@@ -217,13 +218,70 @@ include __DIR__ . "/../datapages/header.php";
                             <span class="text-xs sm:text-base text-black dark:text-white">Düşünceni paylaş</span>
 
                             <div class="text-xs sm:text-base w-full min-h-[30px] sm:min-h-[160px] mt-2 duration-300 transition-all">
-                                <textarea name="" id="" class="text-xs sm:text-sm flex w-full min-h-[100px] sm:min-h-[160px] bg-transparent dark:text-white outline-0 ring-0 border-1 border-slate-200 dark:border-dhover-300 focus:ring-0 focus:outline-0 focus:border-slate-400 dark:focus:border-dhover-50 dark:focus:border-1 dark:focus:border duration-300 transition-all"></textarea>
+                                <textarea name="" id="new-base-comment-text" class="text-xs sm:text-sm flex w-full min-h-[100px] sm:min-h-[160px] bg-transparent dark:text-white outline-0 ring-0 border-1 border-slate-200 dark:border-dhover-300 focus:ring-0 focus:outline-0 focus:border-slate-400 dark:focus:border-dhover-50 dark:focus:border-1 dark:focus:border duration-300 transition-all"></textarea>
                             </div>
 
                             <div class="text-sm sm:text-base flex w-full justify-end text-sm mt-3 duration-300 transition-all">
-                                <button id="cancel-a-new-question" class="text-xs bg-red-600 mr-3 py-2 px-3 text-white outline-0 hover:outline-1 hover:outline duration-300 rounded fffonts-golostext text-normal">İptal et</button>
-                                <button id="ask-a-new-question" class="text-xs bg-blue-600 py-2 px-3 text-white outline-0 border-0 ring-0 hover:outline-1 hover:outline-white hover:outline duration-300 rounded fffonts-golostext text-normal disabled:text-slate-300 disabled:bg-blue-800">paylaş</button>
+                                <div class="flex flex-row w-full h-8 items-center">
+                                    <div class="flex w-4 h-4 bg-gray-200 rounded overflow-hidden">
+                                        <input type="checkbox" class="w-full h-full ring-0 focus:ring-0 bg-slate-200 border border-slate-300 dark:border-0 dark:border-none p-0 m-0 rounded" id="cadd-anonymousmode">
+                                    </div>
+                                    <label class="ml-2 mt-1 text-xs dark:text-white">Gizli olarak sormak istiyorum</label>
+                                </div>
+                                <!--<button id="cancel-a-new-question" class="text-xs bg-red-600 mr-3 py-2 px-3 text-white outline-0 hover:outline-1 hover:outline duration-300 rounded fffonts-golostext text-normal">İptal et</button>-->
+                                <button id="make-a-new-comment" target-comment-id="<?php echo $quest["id"]; ?>" class="text-xs bg-blue-600 py-2 px-3 text-white outline-0 border-0 ring-0 hover:outline-1 hover:outline-white hover:outline duration-300 rounded fffonts-golostext text-normal disabled:text-slate-300 disabled:bg-blue-800">paylaş</button>
                             </div>
+
+                            <script>
+
+                                $(document).ready(() => {
+                                    var qaddBtnDisabledCheck = false;
+
+                                    $("#make-a-new-comment").click(() => {
+                                        var target_id = $("#make-a-new-comment").attr("target-comment-id");
+
+
+                                            if (qaddBtnDisabledCheck)
+                                                dispatchEvent();
+
+                                            qaddBtnDisabledCheck = true;
+
+                                            var c_target = target_id;
+                                            var c_content = $("#new-base-comment-text").val();
+
+                                            $.ajax({
+                                                url: getHost("/api/backend/comments"),
+                                                method: "POST",
+                                                data: {
+                                                    "action": "add",
+                                                    "target": c_target,
+                                                    "content": c_content,
+                                                    "secret_mode": ($("#cadd-anonymousmode")[0].checked == false || $("#cadd-anonymousmode")[0].checked == true) ? ($("#cadd-anonymousmode")[0].checked ? 1 : 0) : 0,
+                                                },
+                                                success: (data, status) => {
+                                                    console.log(data);
+                                                    if (data.status)
+                                                    {
+                                                        ffMakeAlert("success", "Başarılı!", data.data);
+                                                        qaddBtnDisabledCheck = false;
+
+                                                        setTimeout(() => {
+                                                            location.reload()
+                                                        }, 1200);
+                                                    }
+                                                    else{
+                                                        ffMakeAlert("error", "Başarılı!", data.data.err);
+                                                        qaddBtnDisabledCheck = false;
+                                                    }
+                                                },
+                                                error: (v1, v2) => {
+                                                    qaddBtnDisabledCheck = false;
+                                                    console.log("Javascript request error");
+                                                }
+                                            });
+                                    });
+                                });
+                            </script>
 
                         </div>
                     </div>
@@ -231,13 +289,76 @@ include __DIR__ . "/../datapages/header.php";
                 <?php }?>
 
 
-                <quest-comment
-                        c-user-name="Mustafa"
-                        c-is-man="1"
-                        c-is-secret="0"
-                ></quest-comment>
+                <div class="flex flex-col w-full h-full" id="commend-list-basement">
+                    <!--<quest-comment
+                            c-id="1453"
+                            c-content="1453"
+                            c-user-name="Mustafa"
+                            c-user-image=""
+                            c-user-status="1"
+                            c-is-man="1"
+                            c-is-secret="0"
+                    ></quest-comment>-->
+                </div>
 
 
+                <script>
+
+                    $(document).ready(() => {
+                        $.ajax({
+                            url: getHost("/api/backend/comments"),
+                            method: "POST",
+                            data: {
+                                "action": "list",
+                                "target": <?php echo $quest["id"]; ?>
+                            },
+                            success: (data, status) => {
+
+                                //console.log(data.data);
+
+                                if (data.status) {
+                                    data.data.forEach((item) => {
+                                        if (item.secret_mode) {
+                                            var itemx = $("<quest-comment></quest-comment>");
+
+                                            itemx.attr("c-is-secret", 1);
+
+
+
+                                            itemx.attr("c-id", item.comment_id);
+                                            itemx.attr("c-content", item.content);
+                                            itemx.attr("c-user-status", item.user_status);
+                                            itemx.attr("c-is-man", item.user_gender);
+
+                                            $("#commend-list-basement").append(itemx);
+                                        }
+                                        else {
+                                            var itemx = $("<quest-comment></quest-comment>");
+
+                                            itemx.attr("c-is-secret", 0);
+
+
+
+                                            itemx.attr("c-id", item.comment_id);
+                                            itemx.attr("c-content", item.content);
+                                            itemx.attr("c-user-name", item.user_name + " " + item.user_surname);
+                                            itemx.attr("c-user-image", item.user_image);
+                                            itemx.attr("c-user-status", item.user_status);
+                                            itemx.attr("c-is-man", item.user_gender);
+
+                                            $("#commend-list-basement").append(itemx);
+                                        }
+                                    })
+                                }
+                            },
+                            error: (v1, v2) => {
+                                console.log("Javascript request error");
+                                console.log(v1);
+                                console.log(v2);
+                            }
+                        });
+                    });
+                </script>
             </div>
         </div>
 

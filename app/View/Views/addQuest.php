@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <?php echo configs_site_libs; ?>
+    <?php echo configs_adsense_cfg; ?>
 
     <title>Soru Sor!</title>
 

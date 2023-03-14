@@ -130,6 +130,120 @@ class PluginController
                 break;
         }
     }
+    public function comments ( $params ) {
+        if (!PBSController::cfun()->requireOnlyPost())
+            makeResponse(400, "Bad Request", false, [
+                "err" => "you just need a post request",
+            ]);
+
+        if (!PBSController::cfun()->checkNullOrBlankInPost(["action"]))
+            makeResponse(400, "Bad Request", false, [
+                "err" => "please use correct post parameters",
+            ]);
+
+        function listComments() {
+
+            if (!PBSController::cfun()->checkNullOrBlankInPost(["target"]))
+                makeResponse(200, "Bad Request", false, [
+                    "err" => "please use correct post parameters",
+                ]);
+
+            $questsStatus = \CONTROLLERS\commentsController::cfun()->getAllComments($_POST["target"]);
+
+            if ($questsStatus[0])
+                makeResponse(200, "Success", true, $questsStatus[1]);
+            else
+                makeResponse(200, "Bad Request", false, [
+                    "err" => $questsStatus[1],
+                ]);
+        }
+        function addNewComment() {
+
+            if (!PBSController::cfun()->checkNullOrBlankInPost(["target", "content", "secret_mode"]))
+                makeResponse(200, "Basic Error", false, [
+                    "err" => "Lütfen boşlukları doldurmayı dene..",
+                ]);
+
+            $questsStatus = \CONTROLLERS\commentsController::cfun()->addNewComment($_POST["target"], $_POST["content"], $_POST["secret_mode"] == 1 ? 1 : 0);
+
+            if ($questsStatus[0])
+                makeResponse(200, "Success", true, $questsStatus[1]);
+            else
+                makeResponse(200, "Bad Request", false, [
+                    "err" => $questsStatus[1],
+                ]);
+        }
+        function likeQuest() {
+
+            if (!PBSController::cfun()->checkNullOrBlankInPost(["liketo"]))
+                makeResponse(400, "Bad Request", false, [
+                    "err" => "please use correct post parameters",
+                ]);
+
+            $questsStatus = \CONTROLLERS\questsController::cfun()->likeQuestBySession($_POST["liketo"]);
+
+            if ($questsStatus[0])
+                makeResponse(200, "Success", true, [
+                    "err" => $questsStatus[1],
+                ]);
+            else
+                makeResponse(200, "Error by like system", false, [
+                    "err" => $questsStatus[1],
+                ]);
+        }
+        function unLikeQuest() {
+
+            if (!PBSController::cfun()->checkNullOrBlankInPost(["unliketo"]))
+                makeResponse(400, "Bad Request", false, [
+                    "err" => "please use correct post parameters",
+                ]);
+
+            $questsStatus = \CONTROLLERS\questsController::cfun()->unLikeQuestBySession($_POST["unliketo"]);
+
+            if ($questsStatus[0])
+                makeResponse(200, "Success", true, $questsStatus[1]);
+            else
+                makeResponse(200, "Error by like system", false, [
+                    "err" => $questsStatus[1],
+                ]);
+        }
+        function addNewQuest() {
+
+            if (!PBSController::cfun()->checkNullOrBlankInPost(["category", "header", "content", "secret_mode", "image_url"]))
+                makeResponse(400, "Bad Request", false, [
+                    "err" => "please use correct post parameters",
+                ]);
+
+            $questsStatus = \CONTROLLERS\questsController::cfun()->addNewWuestionBySession($_POST["header"], $_POST["category"], $_POST["content"], $_POST["secret_mode"], $_POST["image_url"]);
+
+            if ($questsStatus[0])
+                makeResponse(200, "Success", true, $questsStatus[1]);
+            else
+                makeResponse(200, "Error by like system", false, [
+                    "err" => $questsStatus[1],
+                ]);
+        }
+
+        //naber arkadaşlar ben yani katıldım buranın amacı tam olarak nedir acaba ?
+        $action = $_POST["action"];
+
+        switch ($action)
+        {
+            case "list":
+                listComments();
+                return;
+                break;
+            case "add":
+                addNewComment();
+                return;
+                break;
+            default:
+                makeResponse(400, "Internal Server Error", false, [
+                    "err" => "Function is blank",
+                ]);
+                break;
+        }
+    }
 
     public function user($params){
         if (!PBSController::cfun()->requireOnlyPost())
@@ -188,6 +302,29 @@ class PluginController
             }
         }
 
+        {
+            function makeprofile() {
+                if (!PBSController::cfun()->checkNullOrBlankInPost(["name", "gender", "age", "job", "pp"]))
+                    makeResponse(400, "Bad Request", false, [
+                        "err" => "please use correct post parameters",
+                    ]);
+
+                if (!isset($_COOKIE["PHPSESSID"]) || $_COOKIE["PHPSESSID"] == "" || !$_COOKIE["PHPSESSID"])
+                    makeResponse(400, "Bad Request", false, [
+                        "err" => "please use correct post parameters",
+                    ]);
+
+                $ucStatus = \CONTROLLERS\userController::cfun()->makeprofile($_POST["name"], $_POST["gender"], $_POST["age"], $_POST["job"], $_POST["pp"]);
+
+                if ($ucStatus[0])
+                    makeResponse(200, "Success", true, $ucStatus[1]);
+                else
+                    makeResponse(200, "Bad Request", false, [
+                        "err" => $ucStatus[1],
+                    ]);
+            }
+        }
+
 
 
 
@@ -202,6 +339,10 @@ class PluginController
                 break;
             case "register":
                 register();
+                return;
+                break;
+            case "makeprofile":
+                makeprofile();
                 return;
                 break;
             default:

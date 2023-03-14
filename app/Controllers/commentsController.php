@@ -5,15 +5,15 @@ use DATABASE\FFDatabaseInternal;
 use PDO;
 use SessionController\SessionController;
 
-class questsController extends \DATABASE\FFDatabaseInternal
+class commentsController extends \DATABASE\FFDatabaseInternal
 {
 
-    public function getAllQuests()
+    public function getAllComments($target)
     {
         $db = $this->init();
 
         if ($db) {
-            $v = $db->connection->prepare("SELECT * FROM quests ORDER BY created_at DESC LIMIT 50 ");
+            $v = $db->connection->prepare("SELECT * FROM comments WHERE writed_to='" . $target . "' ORDER BY created_at DESC");
             $v2 = $v->execute([]);
             $v3 = $v->fetchAll(PDO::FETCH_ASSOC);
 
@@ -21,8 +21,8 @@ class questsController extends \DATABASE\FFDatabaseInternal
                 foreach ($v3 as $item) {
 
                     $xid = $item["id"];
-                    $uid = $item["owner_id"];
-                    $smode = $item["secret_mode"] ? true : false;
+                    $uid = $item["writed_by"];
+                    $smode = $item["secret_mode"] == 1 ? true : false;
 
                     $vv = $db->connection->prepare("SELECT * FROM users WHERE id='" . $uid . "'");
                     $vv2 = $vv->execute([]);
@@ -34,11 +34,8 @@ class questsController extends \DATABASE\FFDatabaseInternal
 
                         if ($smode) {
                             $habersX[] = [
-                                "quest_id" => $xid,
+                                "comment_id" => $xid,
                                 "secret_mode" => $smode,
-                                "image_url" => $item["image_url"],
-                                "category" => $item["category"],
-                                "header" => $item["header"],
                                 "content" => $item["content"],
                                 "created_at" => $item["created_at"],
                                 "user_gender" => $vv3["gender"],
@@ -46,32 +43,31 @@ class questsController extends \DATABASE\FFDatabaseInternal
                             ];
                         } else {
                             $habersX[] = [
-                                "quest_id" => $xid,
+                                "comment_id" => $xid,
                                 "secret_mode" => $smode,
-                                "owner_id" => $uid,
-                                "image_url" => $item["image_url"],
-                                "category" => $item["category"],
-                                "header" => $item["header"],
+                                "writed_by" => $uid,
                                 "content" => $item["content"],
                                 "created_at" => $item["created_at"],
                                 "user_id" => $vv3["id"],
                                 "user_name" => $vv3["name"],
                                 "user_surname" => $vv3["surname"],
+                                "user_username" => $vv3["username"],
                                 "user_gender" => $vv3["gender"],
                                 "user_status" => $vv3["status"],
+                                "user_image" => $vv3["image_uri"],
                             ];
                         }
 
                     }
 
                 }
-                return [true, $habersX ?? "no-record"];
+                return [true, $habersX ?? "no-comments-found"];
             } else {
-                return [false, "Soru yok!"];
+                return [false, "no-comments-found"];
             }
 
         } else
-            return [false, "null hata"];
+            return [false, "Belirlenemeyen Hata"];
     }
 
     public function imILiked($qid){
@@ -105,7 +101,7 @@ class questsController extends \DATABASE\FFDatabaseInternal
         }
     }
 
-    public function likeQuestBySession($target_quest){
+    public function addNewComment($target, $content, $secretMode){
         $sc = SessionController::CreateInstance();
 
         if ($sc->Get("is_logged") == 1)
@@ -115,25 +111,27 @@ class questsController extends \DATABASE\FFDatabaseInternal
 
             if ($questU != "no-record" && $questU)
             {
-                $questL = \DATABASE\FFDatabase::cfun()->select("likes")->where("liked_by", $suid)->where("liked_to", $target_quest)->run()->get();
-
-                if ($questL && $questL == "no-record")
+                $quest = \DATABASE\FFDatabase::cfun()->select("comments")->where("writed_to", $target)->run()->get();
+                if ($quest)
                 {
-                    $questsLikeAdd = \DATABASE\FFDatabase::cfun()->insert("likes", [["liked_to", $target_quest], ["liked_by", $suid]])->run();
-
-                    if ($questsLikeAdd->x)
+                    if (\DATABASE\FFDatabase::cfun()->insert("comments", [
+                        ["content", $content],
+                        ["writed_by", $questU["id"]],
+                        ["secret_mode", $secretMode],
+                        ["writed_to", $target],
+                    ])->run()->x)
                     {
-                        return [true, $this->getLikeCountByQuest($target_quest)];
+                        return [true, "Yorum yaptın, Yaşasın! 😆"];
                     }
                     else
                         return [false, "Like Eklenemedi, zaten beğenmişsin."];
                 }
-                else{
-                    if ($questL && $questL != "no-record")
-                        return [false, "Zaten beğenmişsin." ];
-                    else
-                        return [false, "veritabanı hatası 1"];
-                }
+                else if ($quest == "no-record")
+                    return [false, "Bulunmayan bir soru hakkında yorum yapamazsın."];
+                else if (!is_array($quest) || !$quest)
+                    return [false, "Sebebi bilinmeye hata, Daha sonra tekrar deneyiniz. #498461"];
+                else
+                    return [false, "Sebebi bilinmeye hata, Daha sonra tekrar deneyiniz. #5616516894"];
             }
             else{
                 return [false, "veritabanı hatası 2"];
@@ -226,7 +224,7 @@ class questsController extends \DATABASE\FFDatabaseInternal
 
     public static function cfun()
     {
-        return new questsController();
+        return new commentsController();
     }
 
 }

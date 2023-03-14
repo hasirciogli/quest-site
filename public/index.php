@@ -1,5 +1,11 @@
 <?php
 
+if (true)
+    error_reporting(E_ALL);
+else
+    error_reporting(~E_ALL);
+
+
 error_reporting(E_ALL);
 
 //die(var_dump($_SERVER));
@@ -69,13 +75,17 @@ Router::Middleware("quest", true, function () {
 
 
 
-
+Router::get("/makeprofile", function () {
+    View::Show("user/makeprofile", pageTypes::PAGE_TYPE_NORMAL);
+});
 
 Router::Middleware("profile", \CONTROLLERS\userController::cfun()->isLogged(), function () {
     View::Show("user/profile", pageTypes::PAGE_TYPE_NORMAL);
 }, function () {
     Router::Route("auth/login");
 });
+
+
 
 
 
