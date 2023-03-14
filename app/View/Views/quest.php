@@ -134,13 +134,12 @@ include __DIR__ . "/../datapages/header.php";
                     </div>
                     <h1 class="mt-3 font-semibold text-3xl fffonts-nunito dark:text-white""><?php echo $quest["header"] ?></h1>
                     <div class="flex flex-row mt-5">
-                        <img src="/storage/image/site-images/user-man.png" class="w-20 h-20" alt="">
                         <?php
 
                         if ($quest["secret_mode"] == 1)
                         {
                             ?>
-
+                            <img src="<?php echo $questU["gender"] == 1 ? "/storage/image/site-images/user-man.png" : "/storage/image/site-images/user-woman.png"; ?>" class="w-20 h-20 rounded-full overflow-hidden" alt="">
                             <div class="flex flex-col justify-center h-full p-2 dark:text-white">
                                 <div class="fffonts-golostext">Gizli Üye</div>
                                 <div class="fffonts-golostext">Level: xxx | Yaş: xx</div>
@@ -154,10 +153,25 @@ include __DIR__ . "/../datapages/header.php";
                             //$____bAe____  = $____diff____->format('%y.%m.%d : %H:%i:%s');
                             $____bAe____  = $____diff____->format('%y.%m.%d');
                             ?>
+                            <img id="quest_header_user_image" src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=ecf05e47oa0a01n62ecj30b220wunsifcd4wsths7f31aiwt&rid=giphy.gif&ct=g" class="w-20 h-20 rounded-full overflow-hidden" alt="" onerror="this.error = null; this.src='<?php echo $questU["gender"] == 1 ? "/storage/image/site-images/user-man.png" : "/storage/image/site-images/user-woman.png"; ?>'">
+
                             <div class="flex flex-col justify-center h-full p-2 dark:text-white"">
-                                <a href="/user-profile/<?php echo $questU["id"] ?>"><div class="fffonts-golostext font-semibold"><?php echo $questU["name"] . " " . $questU["surname"];  ?></div></a>
+                                <a href="/user-profile/<?php echo $questU["id"] ?>"><div class="fffonts-golostext font-semibold"><?php echo $questU["name"];  ?></div></a>
                                 <div class="fffonts-golostext" title="Kişini yaşı sırasıya YIL AY GÜN olarak belirtilmiştir">Level: <?php echo $questU["level"] ?> | Yaş: <?php echo (isset($questU["birth_date"]) && $questU["birth_date"] != "" ? $____bAe____ : "Belirtilmemiş"); ?></div>
                             </div>
+
+                            <script>
+                                $(document).ready(() => {
+                                    $.ajax({
+                                        url: getHost("/api/backend/ppmanager?action=getpp&uid=<?php echo $questU["id"]; ?>"),
+                                        success: (data) => {
+                                            setTimeout(() => {
+                                                $("#quest_header_user_image").attr("src", data);
+                                            }, 800);
+                                        }
+                                    })
+                                });
+                            </script>
                         <?php }
                         ?>
                     </div>
@@ -207,9 +221,10 @@ include __DIR__ . "/../datapages/header.php";
                     <div class="mt-2 mb-2 flex w-full min-h-[30px] sm:min-h-[140px] rounded overflow-hidden border dark:border-dhover-400 duration-300 transition-all">
                         <div class="hidden sm:flex justify-center duration-300 transition-all">
                             <img
-                                    class="m-2 w-[60px] h-[60px] duration-300 transition-all"
-                                    src="<?php echo $sessionUser[1]["image_uri"]?>"
-                                    alt=""
+                                    class="m-2 w-[60px] h-[60px] rounded-full duration-300 transition-all"
+                                    src=""
+                                    onload="this.onload=null; this.src=getLoaderGifLink() "
+                                    id="make-new-comment-user-id"
                                     onerror="this.onerror=null; this.src='<?php echo $nLink;?>'"
                             >
                         </div>
@@ -241,44 +256,53 @@ include __DIR__ . "/../datapages/header.php";
                                         var target_id = $("#make-a-new-comment").attr("target-comment-id");
 
 
-                                            if (qaddBtnDisabledCheck)
-                                                dispatchEvent();
+                                        if (qaddBtnDisabledCheck)
+                                            dispatchEvent();
 
-                                            qaddBtnDisabledCheck = true;
+                                        qaddBtnDisabledCheck = true;
 
-                                            var c_target = target_id;
-                                            var c_content = $("#new-base-comment-text").val();
+                                        var c_target = target_id;
+                                        var c_content = $("#new-base-comment-text").val();
 
-                                            $.ajax({
-                                                url: getHost("/api/backend/comments"),
-                                                method: "POST",
-                                                data: {
-                                                    "action": "add",
-                                                    "target": c_target,
-                                                    "content": c_content,
-                                                    "secret_mode": ($("#cadd-anonymousmode")[0].checked == false || $("#cadd-anonymousmode")[0].checked == true) ? ($("#cadd-anonymousmode")[0].checked ? 1 : 0) : 0,
-                                                },
-                                                success: (data, status) => {
-                                                    console.log(data);
-                                                    if (data.status)
-                                                    {
-                                                        ffMakeAlert("success", "Başarılı!", data.data);
-                                                        qaddBtnDisabledCheck = false;
-
-                                                        setTimeout(() => {
-                                                            location.reload()
-                                                        }, 1200);
-                                                    }
-                                                    else{
-                                                        ffMakeAlert("error", "Başarılı!", data.data.err);
-                                                        qaddBtnDisabledCheck = false;
-                                                    }
-                                                },
-                                                error: (v1, v2) => {
+                                        $.ajax({
+                                            url: getHost("/api/backend/comments"),
+                                            method: "POST",
+                                            data: {
+                                                "action": "add",
+                                                "target": c_target,
+                                                "content": c_content,
+                                                "secret_mode": ($("#cadd-anonymousmode")[0].checked == false || $("#cadd-anonymousmode")[0].checked == true) ? ($("#cadd-anonymousmode")[0].checked ? 1 : 0) : 0,
+                                            },
+                                            success: (data, status) => {
+                                                console.log(data);
+                                                if (data.status) {
+                                                    ffMakeAlert("success", "Başarılı!", data.data);
                                                     qaddBtnDisabledCheck = false;
-                                                    console.log("Javascript request error");
+
+                                                    setTimeout(() => {
+                                                        location.reload()
+                                                    }, 1200);
+                                                } else {
+                                                    ffMakeAlert("error", "Başarılı!", data.data.err);
+                                                    qaddBtnDisabledCheck = false;
                                                 }
-                                            });
+                                            },
+                                            error: (v1, v2) => {
+                                                qaddBtnDisabledCheck = false;
+                                                console.log("Javascript request error");
+                                            }
+                                        });
+                                    });
+
+                                    $(document).ready(() => {
+                                        $.ajax({
+                                            url: getHost("/api/backend/ppmanager?action=getpp&uid=<?php echo $sessionUser[1]["id"]; ?>"),
+                                            success: (data) => {
+                                                setTimeout(() => {
+                                                    $("#make-new-comment-user-id").attr("src", data);
+                                                }, 800);
+                                            }
+                                        });
                                     });
                                 });
                             </script>
@@ -316,6 +340,7 @@ include __DIR__ . "/../datapages/header.php";
 
                                 //console.log(data.data);
 
+                                console.log(data.data);
                                 if (data.status) {
                                     data.data.forEach((item) => {
                                         if (item.secret_mode) {
@@ -339,12 +364,26 @@ include __DIR__ . "/../datapages/header.php";
 
 
 
+
                                             itemx.attr("c-id", item.comment_id);
+                                            itemx.attr("c-uid", item.writed_by);
                                             itemx.attr("c-content", item.content);
-                                            itemx.attr("c-user-name", item.user_name + " " + item.user_surname);
+                                            itemx.attr("c-user-name", item.user_name);
                                             itemx.attr("c-user-image", item.user_image);
                                             itemx.attr("c-user-status", item.user_status);
                                             itemx.attr("c-is-man", item.user_gender);
+
+
+                                            $.ajax({
+                                                url: getHost("/api/backend/ppmanager?action=getpp&uid=" + item.writed_by),
+                                                success: (data) => {
+                                                    setTimeout(() => {
+                                                        $(".qlinkbase-image-" + item.writed_by).each(function (){
+                                                            $(this).attr("src", data);
+                                                        })
+                                                    }, 800);
+                                                }
+                                            })
 
                                             $("#commend-list-basement").append(itemx);
                                         }

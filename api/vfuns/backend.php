@@ -328,7 +328,6 @@ class PluginController
 
 
 
-
         $action = $_POST["action"];
 
         switch ($action)
@@ -343,6 +342,58 @@ class PluginController
                 break;
             case "makeprofile":
                 makeprofile();
+                return;
+                break;
+            default:
+                makeResponse(400, "Internal Server Error", false, [
+                    "err" => "Function is blank",
+                ]);
+                break;
+        }
+    }
+
+    public function ppmanager($params){
+        if (!PBSController::cfun()->requirePGTwice())
+            makeResponse(400, "Bad Request", false, [
+                "err" => "you just need a post request",
+            ]);
+
+        if (!PBSController::cfun()->checkNullOrBlankInGet(["action"]))
+            makeResponse(400, "Bad Request", false, [
+                "err" => "please use correct post parameters",
+            ]);
+        {
+            function getpp() {
+                if (!PBSController::cfun()->checkNullOrBlankInGet(["uid"]))
+                    makeResponse(400, "Bad Request", false, [
+                        "err" => "please use correct post parameters",
+                    ]);
+
+                if (!isset($_COOKIE["PHPSESSID"]) || $_COOKIE["PHPSESSID"] == "" || !$_COOKIE["PHPSESSID"])
+                    makeResponse(400, "Bad Request", false, [
+                        "err" => "please use correct post parameters",
+                    ]);
+
+                $ucStatus = \CONTROLLERS\userController::cfun()->getpp($_GET["uid"]);
+
+                if ($ucStatus[0])
+                    makeResponse(200, "Success", true, $ucStatus[1]);
+                else
+                    makeResponse(200, "Bad Request", false, [
+                        "err" => $ucStatus[1],
+                    ]);
+            }
+        }
+
+
+
+
+        $action = $_GET["action"];
+
+        switch ($action)
+        {
+            case "getpp":
+                getpp();
                 return;
                 break;
             default:

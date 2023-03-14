@@ -7,6 +7,7 @@ class categoryController extends \DATABASE\FFDatabaseInternal
 
     public function addCategory($name, $code)
     {
+        return;
         $db = $this->init();
 
         if ($db) {

@@ -57,6 +57,10 @@ const convertBase64 = (file) => {
     });
 };
 
+const getLoaderGifLink = () => {
+    return "https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=ecf05e47oa0a01n62ecj30b220wunsifcd4wsths7f31aiwt&rid=giphy.gif&ct=g";
+}
+
 
 /*
 setInterval(() => {

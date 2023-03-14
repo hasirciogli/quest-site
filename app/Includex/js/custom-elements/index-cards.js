@@ -1,11 +1,12 @@
 class HaberText extends HTMLElement {
     connectedCallback() {
         this.questionId = (parseInt(this.getAttribute("qid")));
+        this.userId = (parseInt(this.getAttribute("uid")));
         this.isUserSecret = (parseInt(this.getAttribute("is-secret")));
         this.questionUserStatus = (parseInt(this.getAttribute("user-status")));
         this.isUserMan = (parseInt(this.getAttribute("is-man")));
         this.questionBaseImage = this.getAttribute("base-image") == "" || !this.getAttribute("base-image") ? getHost("/storage/image/site-images/noimage-2.png") : this.getAttribute("base-image");
-        this.questionUserImage = this.isUserSecret ? (this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png")) : (this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png"));
+        this.questionUserImage = this.isUserSecret ? (this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png")) : (this.getAttribute("user-image") ?? (this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png")));
         this.questionBaseHeader = this.getAttribute("base-header") ?? "undefined";
         this.questionBaseContent = this.getAttribute("base-content") ?? "undefined";
         this.questionBaseSharedDate =  this.getAttribute("base-created-at") ?? "we dont know";
@@ -13,6 +14,7 @@ class HaberText extends HTMLElement {
 
         if (this.questionBaseTotalReadMinute < 1)
             this.questionBaseTotalReadMinute = "1 saniye"
+
         else if (this.questionBaseTotalReadMinute > 60)
         {
             this.questionBaseTotalReadMinute = this.questionBaseTotalReadMinute / 60;
@@ -38,18 +40,16 @@ class HaberText extends HTMLElement {
                 `;
 
         this.questionUserName = this.getAttribute("user-name");
-        this.questionUserUserName = this.getAttribute("user-surname");
-        this.questionUser = this.isUserSecret ? "Gizli üye" : this.questionUserName + " " + this.questionUserUserName;
+        this.questionUser = this.isUserSecret ? "Gizli üye" : this.questionUserName;
         this.innerHTML = `
 
                 <div class="w-full">
                 <a href="/quest/${this.questionId}" class="relative block overflow-hidden rounded-lg border dark:bg-dc-100 dark:border-1 border-gray-200 shadow-md dark:shadow-none dark:border-dhover-400">
 
                 <img
-                        alt="${this.questionBaseImage}"
                         src="${this.questionBaseImage}"
                         loading='lazy'
-                        class="h-56 w-full object-cover mb-5 dark:border-b dark:border-b-dhover-300 ${this.questionBaseImage == "" || !this.questionBaseImage ? "" : ""}"
+                        class="h-56 w-full object-cover mb-5 dark:border-b dark:border-b-dhover-300 ${this.isUserSecret == false ? "need-download-pp" : ""} ${this.questionBaseImage == "" || !this.questionBaseImage ? "" : ""}"
                         onerror="this.onerror=null; this.src='/storage/image/site-images/noimage-2.png'"
                 />
 
@@ -71,10 +71,11 @@ class HaberText extends HTMLElement {
 
                         <div class="hidden sm:block sm:shrink-0">
                             <img
+                                    onerror="this.error = null; this.src='${this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png")}'"
                                     loading='lazy'
                                     src="${this.questionUserImage}"
                                     title="${this.isUserSecret ? "Gizli üye :)" : this.questionUserName }"
-                                    class="h-16 w-16 rounded-lg object-cover shadow-sm"
+                                    class="h-16 w-16 object-cover qhome-image-${this.userId} shadow-sm rounded-full overflow-hidden"
                             />
                         </div>
                     </div>

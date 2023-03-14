@@ -7,8 +7,6 @@ $(document).ready(() => {
             "action": "list",
         },
         success: (data, status) => {
-            console.log(data);
-
             if (data.status) {
                 data.data.forEach((item) => {
                     if (item.secret_mode) {
@@ -41,9 +39,23 @@ $(document).ready(() => {
                         itemx.attr("user-name", (item.user_name));
                         itemx.attr("user-surname", (item.user_surname));
                         itemx.attr("user-status", parseInt(item.user_status));
+
                         itemx.attr("base-image", (item.image_url == null ? "" : item.image_url));
                         itemx.attr("base-created-at", ((item.created_at == null || item.created_at == "") ? "" : item.created_at));
                         itemx.attr("base-read-min", item.content.length / 10);
+                        itemx.attr("user-image", getLoaderGifLink());
+                        itemx.attr("uid", item.owner_id);
+
+                        $.ajax({
+                            url: getHost("/api/backend/ppmanager?action=getpp&uid=" + item.owner_id),
+                            success: (data) => {
+                                setTimeout(() => {
+                                    $(".qhome-image-" + item.owner_id).each(function (){
+                                        $(this).attr("src", data);
+                                    })
+                                }, 800);
+                            }
+                        })
 
                         $("#qlist-1").append(itemx);
                     }

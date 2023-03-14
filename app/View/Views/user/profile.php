@@ -1,9 +1,10 @@
 <?php
 
-$userControllerResponse = \CONTROLLERS\userController::cfun()->getSessionUser();
 
 if (!\CONTROLLERS\userController::cfun()->isLogged())
     \Router\Router::Route("auth");
+
+$userControllerResponse = \CONTROLLERS\userController::cfun()->getSessionUser();
 
 \CONTROLLERS\userController::cfun()->checkProfileCompletedStatus();
 
@@ -22,7 +23,8 @@ $sessionUser = $userControllerResponse[1];
     <?php echo configs_site_libs; ?>
     <?php echo configs_adsense_cfg; ?>
 
-    <title>Profile of <?php echo $sessionUser["name"] . " " . $sessionUser["surname"]; ?></title>
+    <title>Profile of <?php echo $sessionUser["name"]?></title>
+    <script src="/storage/js/public-requirements.js"></script>
 </head>
 
 <body class="m-0 p-0 dark:bg-dc-50">
@@ -38,7 +40,7 @@ $sessionUser = $userControllerResponse[1];
     <div class="flex flex-col md:flex-row md:flex-row container mx-auto md:rounded overflow-hidden md:mt-5 md:border dark:border-dhover-300 border-gray-200 shadow-md shadow-gray-200 dark:shadow-dhover-400 duration-700">
         <div class="flex flex-col md:w-5/12 lg:w-4/12 xl:w-3/12 md:h-[600px] md:border-r md:border-r-gray-300 dark:border-dhover-300 duration-700">
             <div class="flex flex-row w-full h-[135px] items-center justify-start p-5 border-b border-b-gray-200 dark:border-dhover-300 duration-700">
-                <img src="/storage/image/site-images/user-man.png" class="w-16 md:w-20 duration-700" alt="">
+                <img src="" id="profile-lt-image-ls" onload="this.onload=null; this.src=getLoaderGifLink()" onerror="this.error = null; this.src='<?php echo $sessionUser["gender"] == 1 ? "/storage/image/site-images/user-man.png" : "/storage/image/site-images/user-woman.png"; ?>'" class="w-16 h-16 md:w-20 md:h-20 duration-700 rounded-full overflow-hidden" alt="">
                 <div class="flex flex-col ml-2 dark:text-white">
                     <?php
 
@@ -50,9 +52,20 @@ $sessionUser = $userControllerResponse[1];
                     $____bAe____  = $____diff____->format('%y.%m.%d');
 
                     ?>
-                    <span class="text-sm md:text-md font-semibold"><?php echo $sessionUser["name"] . " " . $sessionUser["surname"]; ?></span>
+                    <span class="text-sm md:text-md font-semibold"><?php echo $sessionUser["name"]; ?></span>
                     <span class="text-xs md:text-sm font-semibold" title="Kişini yaşı sırasıya YIL AY GÜN olarak belirtilmiştir">Level: <?php echo (int)number_format($sessionUser["level"], 0, ".", ","); ?>, Yaş: <?php echo isset($sessionUser["birth_date"]) && $sessionUser["birth_date"] != "" ? $____bAe____ : "Belirtilmemiş"; ?></span>
                 </div>
+
+                <script>
+                    $.ajax({
+                        url: getHost("/api/backend/ppmanager?action=getpp&uid=<?php echo $sessionUser["id"]; ?>"),
+                        success: (data) => {
+                            setTimeout(() => {
+                                $("#profile-lt-image-ls").attr("src", data);
+                            }, 800);
+                        }
+                    })
+                </script>
             </div>
 
             <div class="hidden md:flex h-full flex-col justify-between">
@@ -85,7 +98,7 @@ $sessionUser = $userControllerResponse[1];
 
                         <div>
                             <p class="text-xs">
-                                <strong class="block font-medium"><?php echo $sessionUser["name"] . " " . $sessionUser["surname"]; ?></strong>
+                                <strong class="block font-medium"><?php echo $sessionUser["name"]; ?></strong>
 
                                 <span> mail tanımlı değil </span>
                             </p>

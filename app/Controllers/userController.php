@@ -20,7 +20,9 @@ class userController extends \DATABASE\FFDatabaseInternal
             die(":)");
         }
 
-        if($this->getSessionUser()[1]["profile_completed"] == "0")
+        $sUser = $this->getSessionUser();
+
+        if($sUser[0] && $sUser[1]["profile_completed"] == 0)
         {
             \Router\Router::Route("makeprofile");
             die(":)");
@@ -107,50 +109,63 @@ class userController extends \DATABASE\FFDatabaseInternal
         if (strlen($name) < 3 || strlen($name) > 30)
             return [false, "Adın en az 3, en fazla 30 karater olmalıdır"];
 
-        if (strlen($gender) != 0 || strlen($gender) != 1)
+        if ($gender != 0 && $gender != 1)
             return [false, "? :d"];
 
 
 
-        $image_data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $pp));
+        if($pp == "-")
+        {
+            $ures = \DATABASE\FFDatabase::cfun()->update("users", [
+                ["name", $name],
+                ["gender", $gender],
+                ["birth_date", $bdate],
+                ["image_uri", $pp],
+                ["profile_completed", 1],
+            ])->where("id", $sessionUser["id"])->run();
 
-        if (((strlen($image_data) / 1000) / 1000) > 2)
-            return [false, "Lütfen resim boyutunu 2mb veya daha az olarak belirleyin."];
+            if($ures->x)
+                return [true, "Profilini başarılı bir şekilde oluşturdun!"];
+            else
+                return [false, "Veritabanı hatası..."];
 
-        $image_header = substr($image_data, 0, 3);
-
-        if ($image_header == "\xFF\xD8\xFF" || $image_header == "\x89\x50\x4E" || $image_header == "\x47\x49\x46") {
-
-            $ures = \DATABASE\FFDatabase::cfun()->select("users")->where("id", $sessionUser["id"])->run()->get();
-
-            if ($ures)
-            {
-                if ($ures != "no-record" && is_array($ures))
-                {
-                    return [false, "Kullanıcı Zaten Kayıtlı"];
-                }
-                else{
-                    if ($ures == "no-record")
-                    {
-                        $registerResult = \DATABASE\FFDatabase::cfun()->insert("users", [["username", $username], ["password", $password]])->run();
-                        if ($registerResult->x)
-                        {
-                            return [true, "Kayıt başarılı, Lütfen giriş yapın"];
-                        }
-                        else{
-                            return [false, "Belirsiz Hata $584"];
-                        }
-                    }
-                    else
-                        return [false, "Belirsiz Hata #88"];
-                }
-            }
-            else{
-                return [false, "Belirsiz Hata #99"];
-            }
-        } else {
-            return [false, "Lütfen geçerli bir resim dosyası gönder"];
         }
+        else{
+            $image_data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $pp));
+
+            if (((strlen($image_data) / 1000) / 1000) > 2)
+                return [false, "Lütfen resim boyutunu 2mb veya daha az olarak belirleyin."];
+
+            $image_header = substr($image_data, 0, 3);
+
+            if ($image_header == "\xFF\xD8\xFF" || $image_header == "\x89\x50\x4E" || $image_header == "\x47\x49\x46") {
+
+                $ures = \DATABASE\FFDatabase::cfun()->update("users", [
+                    ["name", $name],
+                    ["gender", $gender],
+                    ["birth_date", $bdate],
+                    ["image_uri", $pp],
+                    ["profile_completed", 1],
+                ])->where("id", $sessionUser["id"])->run();
+
+
+                return [true, "Profilini başarılı bir şekilde oluşturdun!"];
+
+
+            } else {
+                return [false, "Lütfen geçerli bir resim dosyası gönder"];
+            }
+        }
+    }
+    public function getpp($uid)
+    {
+        $uppres = \DATABASE\FFDatabase::cfun()->select("users")->where("id", $uid)->run()->get();
+
+        if($uppres && $uppres != "no-record" && is_array($uppres)){
+            die($uppres["image_uri"]);
+        }
+        else
+            return [false, "Veritabanı hatası..."];
     }
 
     public function getSessionUser()
@@ -159,7 +174,7 @@ class userController extends \DATABASE\FFDatabaseInternal
         $il = $sc->Get("is_logged");
         $lui = $sc->Get("logged_user_id");
 
-        if ($il && $lui)
+        if ($il)
         {
             $ures = \DATABASE\FFDatabase::cfun()->select("users")->where("id", $lui)->run()->get();
             if ($ures)

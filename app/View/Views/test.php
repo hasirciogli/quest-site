@@ -23,7 +23,8 @@
 
 <input type="text" placeholder="username" id="username">
 <input type="text" placeholder="password" id="password">
-<input type="button" value="submit" id="btn">
+
+<img src="http://localhost/api/backend/ppmanager?action=getpp&uid=1" alt="" class="w-20 h-20 bg-red-300">
 
 <script>
     $(document).ready(() => {

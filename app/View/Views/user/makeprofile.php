@@ -46,8 +46,6 @@ if ($sessionUser[1]["profile_completed"] == "1")
             <span class="block text-base text-center md:text-2xl md:mt-2"> haydi! profilini yaratalım </span>
         </h1>
 
-
-
         <div class="flex items-center flex-row w-full md:container md:mx-auto text-black dark:text-white">
             <div class="hidden lg:flex w-full h-[450px] bg-red-200 sm:w-[500px] mx-auto rounded dark:bg-dh-50 border dark:border-dhover-300 dark:hover:border-dhover-100 overflow-hidden">
 
@@ -153,9 +151,7 @@ if ($sessionUser[1]["profile_completed"] == "1")
                         $("#profile-s-image").attr("src", cVal == 1 ? "/storage/image/site-images/user-man.png" : "/storage/image/site-images/user-woman.png");
                     });
 
-                    $("#create-profile-button").click(() => {
 
-                    })
 
                     $("#pp-input").change(async function() {
                         var loadedFile = $(this)[0].files[0];
@@ -177,22 +173,62 @@ if ($sessionUser[1]["profile_completed"] == "1")
                         var base64 = await convertBase64(file);
                         $("#profile-s-image")[0].src = base64;
                     });
+
+
+
+
+
+
+
+
+
+
+                    $("#create-profile-button").click(async() => {
+                        $.ajax({
+                            url: getHost() + "/api/backend/user",
+                            method: "POST",
+                            data: {
+                                "action": "makeprofile",
+                                "name": $("#name-input").val(),
+                                "gender": $("#gender-input").val(),
+                                "age": $("#age-input").val(),
+                                "job": "boş iş",
+                                "pp": $("#pp-input").val() == "" ? "-" : await convertBase64($("#pp-input")[0].files[0]),
+                            },
+                            success: (data, status) => {
+                                console.log(data);
+                                if (data.status)
+                                {
+                                    ffMakeAlert("success", "", data.data);
+                                    setTimeout(() => {
+                                        location.reload();
+                                    }, 2222);
+                                }
+                                else{
+                                    ffMakeAlert("error", "", data.data.err);
+                                    btnClicked = false;
+                                }
+                            },
+                            error: (v1, v2) => {
+                                console.log(v1);
+                                console.log(v2);
+                            }
+                        });
+                    })
+
+
+
+
+
+
+
+
+
+
                 });
 
-                const toDataURL = url => fetch(url)
-                    .then(response => response.blob())
-                    .then(blob => new Promise((resolve, reject) => {
-                        const reader = new FileReader()
-                        reader.onloadend = () => resolve(reader.result)
-                        reader.onerror = reject
-                        reader.readAsDataURL(blob)
-                    }))
 
 
-                toDataURL('https://www.gravatar.com/avatar/d50c83cc0c6523b4d3f6085295c953e0')
-                    .then(dataUrl => {
-                        console.log('RESULT:', dataUrl)
-                    })
 
             </script>
 

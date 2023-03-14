@@ -50,7 +50,6 @@ class commentsController extends \DATABASE\FFDatabaseInternal
                                 "created_at" => $item["created_at"],
                                 "user_id" => $vv3["id"],
                                 "user_name" => $vv3["name"],
-                                "user_surname" => $vv3["surname"],
                                 "user_username" => $vv3["username"],
                                 "user_gender" => $vv3["gender"],
                                 "user_status" => $vv3["status"],

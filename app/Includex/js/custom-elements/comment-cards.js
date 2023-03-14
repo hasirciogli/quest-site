@@ -1,10 +1,12 @@
 class QuestCommentText extends HTMLElement {
     connectedCallback() {
         this.commentId = (parseInt(this.getAttribute("c-id") ?? -1));
+        this.userId = (parseInt(this.getAttribute("c-uid") ?? -1));
         this.isUserSecret = (parseInt(this.getAttribute("c-is-secret") ?? 0)) == 1;
         this.commentUserStatus = (parseInt(this.getAttribute("c-user-status") ?? 0));
         this.isUserMan = (parseInt(this.getAttribute("c-is-man") ?? 0)) == 1;
-        this.commentUserImage = this.isUserSecret ? (this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png")) : (this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png"));
+        this.commentUserImage = this.isUserSecret ? (this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png")) : (this.getAttribute("c-user-image"));
+        this.onErrorUserImage = this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png");
         this.commentContent = this.getAttribute("c-content") ?? "undefined";
         this.commentSharedDate = this.getAttribute("c-created-at") ?? "not calculated";
         this.isCommentLikedByMe = parseInt(this.getAttribute("c-liked-by-me") ?? 0) == 1;
@@ -12,16 +14,15 @@ class QuestCommentText extends HTMLElement {
 
         this.commentUserBadge = `
                     <img
-                        title="${this.questionUserStatus == 0 ? "YASAKLANMIŞ Hesap!" : this.questionUserStatus == 2 ? "Doğrulanmış Hesap!" : this.questionUserStatus == 3 ? "Özel Hesap" : this.questionUserStatus == 10 ? "Yönetici Hesabı" : "Yeni Üye"}"
-                        src="${this.questionUserStatus == 0 ? getHost("/storage/image/site-images/block.png") : this.questionUserStatus == 2 ? getHost("/storage/image/site-images/verify1.png") : this.questionUserStatus == 3 ? getHost("/storage/image/site-images/approved-red.png") : this.questionUserStatus == 10 ? getHost("/storage/image/site-images/shield1.png") : getHost("/storage/image/site-images/clover.png")}"
+                        title="${this.commentUserStatus == 0 ? "YASAKLANMIŞ Hesap!" : this.commentUserStatus == 2 ? "Doğrulanmış Hesap!" : this.commentUserStatus == 3 ? "Özel Hesap" : this.commentUserStatus == 10 ? "Yönetici Hesabı" : "Yeni Üye"}"
+                        src="${this.commentUserStatus == 0 ? getHost("/storage/image/site-images/block.png") : this.commentUserStatus == 2 ? getHost("/storage/image/site-images/verify1.png") : this.commentUserStatus == 3 ? getHost("/storage/image/site-images/approved-red.png") : this.commentUserStatus == 10 ? getHost("/storage/image/site-images/shield1.png") : getHost("/storage/image/site-images/clover.png")}"
                         class="h-4 mx-1"
                     />
                 `;
 
 
         this.questionUserName = this.getAttribute("c-user-name") ?? "undefined";
-        this.questionUserUserName = this.getAttribute("c-user-surname") ?? "undefined";
-        this.questionUser = this.isUserSecret ? "Gizli üye" : this.questionUserName + " " + this.questionUserUserName;
+        this.questionUser = this.isUserSecret ? "Gizli üye" : this.questionUserName;
         this.likesCount = (parseInt(this.getAttribute("c-likes-count") ?? 0));
 
         this.questionUserName += this.commentUserBadge;
@@ -31,10 +32,10 @@ class QuestCommentText extends HTMLElement {
                         <div class="mt-4 mb-2 flex w-full min-h-[30px] sm:min-h-[40px] rounded overflow-hidden border dark:border-dhover-400 dark:shadow-dhover-500 shadow duration-300 transition-all">
                             <div class="hidden sm:flex justify-center duration-300 transition-all">
                                 <img
-                                        class="m-2 w-[60px] h-[60px] duration-300 transition-all"
-                                        src="${this.commentUserImage}"
+                                        class="m-2 w-[60px] ${this.isUserSecret ? "" : ("qlinkbase-image-" + this.userId)} h-[60px] rounded-full duration-300 transition-all"
+                                        src="${this.isUserSecret ? this.commentUserImage : getLoaderGifLink()}"
                                         alt=""
-                                        onerror="this.onerror=null; this.src='<?php echo $nLink;?>'"
+                                        onerror="this.onerror=null; this.src='${this.onErrorUserImage}'"
                                 >
                             </div>
                             <div class="border-l dark:border-dhover-300 dark:shadow-dhover-500 flex flex-col w-full h-full duration-300 transition-all dark:text-white">

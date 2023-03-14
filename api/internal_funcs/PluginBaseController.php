@@ -21,7 +21,7 @@ class PBSController
 
     public function requirePGTwice()
     {
-        if (!$_GET || !$_POST)
+        if (!$_GET && !$_POST)
             return false;
 
         return true;
