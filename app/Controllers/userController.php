@@ -128,7 +128,6 @@ class userController extends \DATABASE\FFDatabaseInternal
                 return [true, "Profilini başarılı bir şekilde oluşturdun!"];
             else
                 return [false, "Veritabanı hatası..."];
-
         }
         else{
             $image_data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $pp));

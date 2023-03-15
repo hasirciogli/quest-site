@@ -6,7 +6,7 @@ $(document).ready(() => {
         data: {
             "action": "list",
         },
-        success: (data, status) => {
+        success: async(data, status) => {
             if (data.status) {
                 data.data.forEach((item) => {
                     if (item.secret_mode) {
@@ -30,6 +30,7 @@ $(document).ready(() => {
                         var itemx = $("<mainmenu-question-basement></mainmenu-question-basement>");
 
                         itemx.attr("qid", item.quest_id);
+                        itemx.attr("uid", item.owner_id);
 
                         itemx.attr("base-header", item.header);
                         itemx.attr("base-content", kisalt(item.content, 30));
@@ -44,9 +45,8 @@ $(document).ready(() => {
                         itemx.attr("base-created-at", ((item.created_at == null || item.created_at == "") ? "" : item.created_at));
                         itemx.attr("base-read-min", item.content.length / 10);
                         itemx.attr("user-image", getLoaderGifLink());
-                        itemx.attr("uid", item.owner_id);
 
-                        $.ajax({
+                        /*$.ajax({
                             url: getHost("/api/backend/ppmanager?action=getpp&uid=" + item.owner_id),
                             success: (data) => {
                                 setTimeout(() => {
@@ -55,11 +55,32 @@ $(document).ready(() => {
                                     })
                                 }, 800);
                             }
-                        })
+                        })*/
 
                         $("#qlist-1").append(itemx);
                     }
                 })
+
+                $("mainmenu-question-basement").each(function (){
+                    if (!$(this).attr("uid"))
+                        return;
+
+                    var tqid = $(this).attr("qid");
+                    var tuid = $(this).attr("uid");
+
+                    var findvar = "#question-userpp-quid"+ tqid + "-uid" + tuid;
+
+                    $.ajax({
+                        url: getHost("/api/backend/ppmanager?action=getpp&uid=" + tuid),
+                        success: (data) => {
+                            setTimeout(() => {
+                                //console.log("setted-" +findvar);
+                                $(findvar).attr("src", data);
+                            }, 800);
+                        }
+                    })
+                });
+
             }
         },
         error: (v1, v2) => {

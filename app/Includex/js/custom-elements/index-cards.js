@@ -76,6 +76,7 @@ class HaberText extends HTMLElement {
                                     src="${this.questionUserImage}"
                                     title="${this.isUserSecret ? "Gizli üye :)" : this.questionUserName }"
                                     class="h-16 w-16 object-cover qhome-image-${this.userId} shadow-sm rounded-full overflow-hidden"
+                                    id="${this.userId ? "question-userpp-quid"+this.questionId+"-uid" + this.userId : ""}"
                             />
                         </div>
                     </div>

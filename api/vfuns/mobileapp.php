@@ -133,6 +133,53 @@ class PluginController
         }
     }
 
+    public function user ( $params ) {
+        $_POST = json_decode(file_get_contents("php://input"),true);
+
+        if (!PBSController::cfun()->requireOnlyPost())
+            makeResponse(400, "Bad Request", false, [
+                "err" => "you just need a post request",
+            ]);
+
+        if (!PBSController::cfun()->checkNullOrBlankInPost(["action"]))
+            makeResponse(400, "Bad Request", false, [
+                "err" => "please use correct post parameters",
+            ]);
+
+        function loginFun() {
+
+            if (!PBSController::cfun()->checkNullOrBlankInPost(["username", "password"]))
+                makeResponse(400, "Bad Request", false, [
+                    "err" => "please use correct post parameters",
+                ]);
+
+            $mobileUserLoginStatus = \CONTROLLERS\userController::cfun()->login($_POST["username"], $_POST["password"]);
+
+            if ($mobileUserLoginStatus[0])
+                makeResponse(200, "Success", true, $mobileUserLoginStatus[1]);
+            else
+                makeResponse(200, "Bad Request", false, [
+                    "err" => $mobileUserLoginStatus[1],
+                ]);
+        }
+
+        //naber arkadaşlar ben yani katıldım buranın amacı tam olarak nedir acaba ?
+        $action = $_POST["action"];
+
+        switch ($action)
+        {
+            case "login":
+                loginFun();
+                return;
+                break;
+            default:
+                makeResponse(400, "Internal Server Error", false, [
+                    "err" => "Function is blank",
+                ]);
+                break;
+        }
+    }
+
     public static function cfun($params)
     {
         $pc = new PluginController();

@@ -58,7 +58,6 @@ class questsController extends \DATABASE\FFDatabaseInternal
                                 "user_name" => $vv3["name"],
                                 "user_gender" => $vv3["gender"],
                                 "user_status" => $vv3["status"],
-                                "user_image" => $vv3["image_uri"],
                             ];
                         }
 
