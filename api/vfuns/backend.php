@@ -88,7 +88,23 @@ class PluginController
                     "err" => "please use correct post parameters",
                 ]);
 
-            $questsStatus = \CONTROLLERS\questsController::cfun()->addNewWuestionBySession($_POST["header"], $_POST["category"], $_POST["content"], $_POST["secret_mode"], $_POST["image_url"]);
+            $questsStatus = \CONTROLLERS\questsController::cfun()->addNewQuestionBySession($_POST["header"], $_POST["category"], $_POST["content"], $_POST["secret_mode"], $_POST["image_url"]);
+
+            if ($questsStatus[0])
+                makeResponse(200, "Success", true, $questsStatus[1]);
+            else
+                makeResponse(200, "Error by like system", false, [
+                    "err" => $questsStatus[1],
+                ]);
+        }
+        function removeQuest() {
+
+            if (!PBSController::cfun()->checkNullOrBlankInPost(["qid"]))
+                makeResponse(400, "Bad Request", false, [
+                    "err" => "please use correct post parameters",
+                ]);
+
+            $questsStatus = \CONTROLLERS\questsController::cfun()->removeQuestionBySession($_POST["qid"]);
 
             if ($questsStatus[0])
                 makeResponse(200, "Success", true, $questsStatus[1]);
@@ -109,6 +125,10 @@ class PluginController
                 break;
             case "add":
                 addNewQuest();
+                return;
+                break;
+            case "remove":
+                removeQuest();
                 return;
                 break;
             case "likec":

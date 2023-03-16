@@ -1,6 +1,7 @@
 <?php
 
 namespace CONTROLLERS;
+use DATABASE\FFDatabase;
 use DATABASE\FFDatabaseInternal;
 use PDO;
 use SessionController\SessionController;
@@ -181,7 +182,7 @@ class questsController extends \DATABASE\FFDatabaseInternal
         }
         return [false, "need-login"];
     }
-    public function addNewWuestionBySession($header = "", $category = "", $content = "", $secretmode = 0, $imageurl = ""){
+    public function addNewQuestionBySession($header = "", $category = "", $content = "", $secretmode = 0, $imageurl = ""){
         $sc = SessionController::CreateInstance();
 
         if ($sc->Get("is_logged") == 1)
@@ -221,6 +222,50 @@ class questsController extends \DATABASE\FFDatabaseInternal
             }
         }
         return [false, "need-login"];
+    }
+    public function removeQuestionBySession($qid){
+        $sc = SessionController::CreateInstance();
+
+        if ($sc->Get("is_logged") == 1)
+        {
+            $suid = $sc->Get("logged_user_id");
+            $questU = \DATABASE\FFDatabase::cfun()->select("users")->where("id", $suid)->run()->get();
+
+            if ($questU != "no-record" && $questU)
+            {
+                if ($questU["status"] == 0)
+                    return [false, "Yasaklanmış kullancılar, Kısıtlanır ve bazı özellikleri kullanamazlar."];
+
+                $questCheck = \DATABASE\FFDatabase::cfun()->select("quests")->where("id", $qid)->run()->get();
+
+                if ($questCheck != "no-record" && $questCheck && is_array($questCheck))
+                {
+                    if ($questU["id"] != $questCheck["owner_id"])
+                        return [false, "Sahibi olmadığın soruyu silemezsin!"];
+
+                    $ffdiv1 = FFDatabaseInternal::cfun()->init();
+                    $ffdiv2 = $ffdiv1->connection->prepare("DELETE FROM quests WHERE id=?");
+                    $ffdiv3 = $ffdiv2->execute([$qid]);
+
+
+                    if ($ffdiv3)
+                    {
+                        return [true, "Soru başarayıyla silindi."];
+                    }
+                    else
+                        return [false, "Soru silinemedi hata var #847851"];
+
+                }
+                else{
+                    return [false, "Geçersiz hata #4981218946"];
+                }
+
+            }
+            else{
+                return [false, "database-error #1894917--*"];
+            }
+        }
+        return [false, "Giriş yapmalısın"];
     }
 
     public static function cfun()

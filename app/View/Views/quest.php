@@ -176,11 +176,19 @@ include __DIR__ . "/../datapages/header.php";
                         ?>
                     </div>
                     <div class="mt-5 dark:text-white"">
-                        <p class="overflow-hidden break-all"><?php echo $quest["content"] ?></p>
-                        <div class="flex flex-row items-center mt-10">
-                            <img src="/storage/image/site-images/hearth-blank.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "hidden" : ""; ?>" alt="" id="make-like-button-for-quest" base-quest-id="<?php echo $target_quest; ?>">
-                            <img src="/storage/image/site-images/hearth-yellow.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "" : "hidden"; ?>" alt="" id="make-unlike-button-for-quest" base-quest-id="<?php echo $target_quest; ?>">
-                            <div class="ml-2 text-sm" id="quest-likes-count"><?php echo is_array($questL) ? count($questL) : "0"; ?> Likes</div>
+                        <p class="overflow-hidden break-all"><?php echo $quest["content"]; ?></p>
+                        <div class="flex flex-row items-center mt-10 justify-between">
+                            <div class="flex flex-row">
+                                <img src="/storage/image/site-images/hearth-blank.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "hidden" : ""; ?>" alt="" id="make-like-button-for-quest" base-quest-id="<?php echo $target_quest; ?>">
+                                <img src="/storage/image/site-images/hearth-yellow.png" class="w-6 h-6 hover:cursor-pointer <?php echo $questsController->imILiked($target_quest) ? "" : "hidden"; ?>" alt="" id="make-unlike-button-for-quest" base-quest-id="<?php echo $target_quest; ?>">
+                                <div class="ml-2 text-sm" id="quest-likes-count"><?php echo is_array($questL) ? count($questL) : "0"; ?> Likes</div>
+                            </div>
+                            <div class="flex-items-center">
+                                <?php if($userController->isLogged() && $sessionUser[1]["id"] == $quest["owner_id"]){ ?>
+                                    <span class="hover:underline hover:cursor-pointer" id="edit-that-quest" qid="<?php echo $quest["id"]; ?>">edit</span>
+                                    <span class="text-red-600 hover:underline hover:cursor-pointer" id="delete-that-quest"  qid="<?php echo $quest["id"]; ?>">delete</span>
+                                <?php } ?>
+                            </div>
                         </div>
 
                         <script>
@@ -413,6 +421,7 @@ include __DIR__ . "/../datapages/header.php";
 
 <script src="/storage/js/custom-elements/comment-cards.js"></script>
 <script src="/storage/js/like-to-question.js"></script>
+<script src="/storage/js/remove-question.js"></script>
 
 </body>
 </html>

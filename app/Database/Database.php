@@ -215,4 +215,9 @@ class FFDatabaseInternal
         }
 
     }
+
+    public static function cfun()
+    {
+        return new FFDatabaseInternal();
+    }
 }
