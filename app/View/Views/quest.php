@@ -185,8 +185,8 @@ include __DIR__ . "/../datapages/header.php";
                             </div>
                             <div class="flex-items-center">
                                 <?php if($userController->isLogged() && $sessionUser[1]["id"] == $quest["owner_id"]){ ?>
-                                    <span class="hover:underline hover:cursor-pointer" id="edit-that-quest" qid="<?php echo $quest["id"]; ?>">edit</span>
-                                    <span class="text-red-600 hover:underline hover:cursor-pointer" id="delete-that-quest"  qid="<?php echo $quest["id"]; ?>">delete</span>
+                                    <!--<span class="hover:underline hover:cursor-pointer" id="edit-that-quest" qid="<?php echo $quest["id"]; ?>">edit</span>-->
+                                    <span class="text-red-600 hover:underline hover:cursor-pointer" id="delete-that-quest"  qid="<?php echo $quest["id"]; ?>">sil</span>
                                 <?php } ?>
                             </div>
                         </div>
@@ -418,10 +418,9 @@ include __DIR__ . "/../datapages/header.php";
     </div>
 </div>
 
-
 <script src="/storage/js/custom-elements/comment-cards.js"></script>
 <script src="/storage/js/like-to-question.js"></script>
-<script src="/storage/js/remove-question.js"></script>
+<script src="/storage/js/question-base-funcs.js"></script>
 
 </body>
 </html>

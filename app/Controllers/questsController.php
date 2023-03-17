@@ -73,7 +73,6 @@ class questsController extends \DATABASE\FFDatabaseInternal
         } else
             return [false, "null hata"];
     }
-
     public function imILiked($qid){
         $sc = SessionController::CreateInstance();
 
@@ -91,7 +90,6 @@ class questsController extends \DATABASE\FFDatabaseInternal
         }
         return false;
     }
-
     public function getLikeCountByQuest($qid){
         $questL = \DATABASE\FFDatabase::cfun()->select("likes")->where("liked_to", $qid)->run()->getAll();
 
@@ -104,7 +102,6 @@ class questsController extends \DATABASE\FFDatabaseInternal
                 return [false, "database-error"];
         }
     }
-
     public function likeQuestBySession($target_quest){
         $sc = SessionController::CreateInstance();
 
@@ -141,7 +138,6 @@ class questsController extends \DATABASE\FFDatabaseInternal
         }
         return [false, "Giriş yapman gerek"];
     }
-
     public function unLikeQuestBySession($target_quest){
         $sc = SessionController::CreateInstance();
 
@@ -263,6 +259,53 @@ class questsController extends \DATABASE\FFDatabaseInternal
             }
             else{
                 return [false, "database-error #1894917--*"];
+            }
+        }
+        return [false, "Giriş yapmalısın"];
+    }
+    public function editQuestionBySession($qid, $header, $content, $category, $image_uri){
+        $sc = SessionController::CreateInstance();
+
+        if ($sc->Get("is_logged") == 1)
+        {
+            $suid = $sc->Get("logged_user_id");
+            $questU = \DATABASE\FFDatabase::cfun()->select("users")->where("id", $suid)->run()->get();
+
+            if ($questU != "no-record" && $questU)
+            {
+                if ($questU["status"] == 0)
+                    return [false, "Yasaklanmış kullancılar, Kısıtlanır ve bazı özellikleri kullanamazlar."];
+
+                $questCheck = \DATABASE\FFDatabase::cfun()->select("quests")->where("id", $qid)->run()->get();
+
+                if ($questCheck != "no-record" && $questCheck && is_array($questCheck))
+                {
+                    if ($questU["id"] != $questCheck["owner_id"])
+                        return [false, "Sahibi olmadığın soruyu düzenleyemezsin!"];
+
+                    $updateStatus = FFDatabase::cfun()->update("quests", [
+                            ["header", $header],
+                            ["content", $content],
+                            ["category", $category],
+                            ["image_uri", $image_uri],
+                        ])->where("id", $qid)->run();
+
+
+                    if ($updateStatus->x)
+                    {
+                        return [true, "Soru başarayıyla Güncellendi."];
+                    }
+                    else
+                        return [false, "Soru silinemedi hata var #5945486"];
+
+                }
+                else{
+                    return [false, "Geçersiz hata #48716518"];
+                }
+
+            }
+            else{
+                return [false, "database-error #5598741894--*"];
             }
         }
         return [false, "Giriş yapmalısın"];
