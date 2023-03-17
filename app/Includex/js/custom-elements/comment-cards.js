@@ -3,6 +3,7 @@ class QuestCommentText extends HTMLElement {
         this.commentId = (parseInt(this.getAttribute("c-id") ?? -1));
         this.userId = (parseInt(this.getAttribute("c-uid") ?? -1));
         this.isUserSecret = (parseInt(this.getAttribute("c-is-secret") ?? 0)) == 1;
+        this.isUserOwned = (this.getAttribute("c-is-own") ?? false) == 1 ? true : false;
         this.commentUserStatus = (parseInt(this.getAttribute("c-user-status") ?? 0));
         this.isUserMan = (parseInt(this.getAttribute("c-is-man") ?? 0)) == 1;
         this.commentUserImage = this.isUserSecret ? (this.isUserMan ? getHost("/storage/image/site-images/user-man.png") : getHost("/storage/image/site-images/user-woman.png")) : (this.getAttribute("c-user-image"));
@@ -52,6 +53,13 @@ class QuestCommentText extends HTMLElement {
                                     <div class="text-xs">
                                         <span class="comment-view-number">${new Intl.NumberFormat("de-DE").format(this.commentViewCount)}</span> View
                                     </div>
+                                    ${
+                                    this.isUserOwned ?
+                                        (' <div class="flex flex-row text-xs"> <span class="text-xs text-white hover:underline hover:cursor-pointer mr-2 edit-that-comment" cid="'+this.commentId+'">düzenle</span><span class="text-xs text-red-600 hover:underline hover:cursor-pointer delete-that-comment"  cid="'+this.commentId+'">sil</span> </div>')
+                                        :
+                                        ("")
+                                    }
+                                    
                                     <!--<div class="flex flex-row">
                                           <div class="mr-2 text-xs comment-likes-count">${this.likesCount} Likes</div>
                                     </div>-->

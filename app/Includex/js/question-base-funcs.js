@@ -29,10 +29,6 @@ $(document).ready(() => {
                     }
                 },
                 error: (v1, v2) => {
-                    console.log(v1);
-                    console.log(v2);
-                    ffMakeAlert("error", "Başarısız", v1);
-                    ffMakeAlert("error", "Başarısız", v2);
                     console.log("Javascript request error");
                 }
             });

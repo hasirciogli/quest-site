@@ -193,6 +193,22 @@ class PluginController
                     "err" => $questsStatus[1],
                 ]);
         }
+        function removeComment() {
+
+            if (!PBSController::cfun()->checkNullOrBlankInPost(["cid"]))
+                makeResponse(200, "Basic Error", false, [
+                    "err" => "Lütfen boşlukları doldurmayı dene..",
+                ]);
+
+            $questsStatus = \CONTROLLERS\commentsController::cfun()->removeComment($_POST["cid"]);
+
+            if ($questsStatus[0])
+                makeResponse(200, "Success", true, $questsStatus[1]);
+            else
+                makeResponse(200, "Bad Request", false, [
+                    "err" => $questsStatus[1],
+                ]);
+        }
         function likeQuest() {
 
             if (!PBSController::cfun()->checkNullOrBlankInPost(["liketo"]))
@@ -255,6 +271,10 @@ class PluginController
                 break;
             case "add":
                 addNewComment();
+                return;
+                break;
+            case "remove":
+                removeComment();
                 return;
                 break;
             default:

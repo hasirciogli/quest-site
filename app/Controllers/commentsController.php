@@ -5,12 +5,15 @@ use DATABASE\FFDatabaseInternal;
 use PDO;
 use SessionController\SessionController;
 
-class commentsController extends \DATABASE\FFDatabaseInternal
+class commentsController extends FFDatabaseInternal
 {
 
     public function getAllComments($target)
     {
         $db = $this->init();
+        $isLoggedUserId = null;
+        if(userController::cfun()->isLogged())
+            $isLoggedUserId = SessionController::CreateInstance()->Get("logged_user_id");
 
         if ($db) {
             $v = $db->connection->prepare("SELECT * FROM comments WHERE writed_to='" . $target . "' ORDER BY created_at DESC");
@@ -40,6 +43,7 @@ class commentsController extends \DATABASE\FFDatabaseInternal
                                 "created_at" => $item["created_at"],
                                 "user_gender" => $vv3["gender"],
                                 "user_status" => $vv3["status"],
+                                "is_local_owned" => ($isLoggedUserId != null && $isLoggedUserId == $uid) ? true : false,
                             ];
                         } else {
                             $habersX[] = [
@@ -54,6 +58,7 @@ class commentsController extends \DATABASE\FFDatabaseInternal
                                 "user_gender" => $vv3["gender"],
                                 "user_status" => $vv3["status"],
                                 "user_image" => $vv3["image_uri"],
+                                "is_local_owned" => ($isLoggedUserId != null && $isLoggedUserId == $uid) ? true : false,
                             ];
                         }
 
@@ -137,6 +142,49 @@ class commentsController extends \DATABASE\FFDatabaseInternal
             }
         }
         return [false, "Giriş yapman gerek"];
+    }
+    public function removeComment($cid){
+        $sc = SessionController::CreateInstance();
+
+        if ($sc->Get("is_logged") == 1)
+        {
+            $suid = $sc->Get("logged_user_id");
+            $commentU = \DATABASE\FFDatabase::cfun()->select("users")->where("id", $suid)->run()->get();
+
+            if ($commentU != "no-record" && $commentU)
+            {
+                if ($commentU["status"] == 0)
+                    return [false, "Yasaklanmış kullancılar, Kısıtlanır ve bazı özellikleri kullanamazlar."];
+
+                $commentCheck = \DATABASE\FFDatabase::cfun()->select("comments")->where("id", $cid)->run()->get();
+
+                if ($commentCheck != "no-record" && $commentCheck && is_array($commentCheck))
+                {
+                    if ($commentU["id"] != $commentCheck["writed_by"])
+                        return [false, "Sahibi olmadığın yorumu silemezsin!"];
+
+                    $ffdiv1 = FFDatabaseInternal::cfun()->init();
+                    $ffdiv2 = $ffdiv1->connection->prepare("DELETE FROM comments WHERE id=?");
+                    $ffdiv3 = $ffdiv2->execute([$commentCheck["id"]]);
+
+                    if ($ffdiv3)
+                    {
+                        return [true, "Yorum başarıyla silindi."];
+                    }
+                    else
+                        return [false, "Yorum silinemedi hata var #847851"];
+
+                }
+                else{
+                    return [false, "Geçersiz hata #4981218946"];
+                }
+
+            }
+            else{
+                return [false, "database-error #1894917--*"];
+            }
+        }
+        return [false, "Giriş yapmalısın"];
     }
 
     public function unLikeQuestBySession($target_quest){

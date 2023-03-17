@@ -362,6 +362,7 @@ include __DIR__ . "/../datapages/header.php";
                                             itemx.attr("c-content", item.content);
                                             itemx.attr("c-user-status", item.user_status);
                                             itemx.attr("c-is-man", item.user_gender);
+                                            itemx.attr("c-is-own", item.is_local_owned == true ? 1 : 0);
 
                                             $("#commend-list-basement").append(itemx);
                                         }
@@ -380,6 +381,7 @@ include __DIR__ . "/../datapages/header.php";
                                             itemx.attr("c-user-image", item.user_image);
                                             itemx.attr("c-user-status", item.user_status);
                                             itemx.attr("c-is-man", item.user_gender);
+                                            itemx.attr("c-is-own", item.is_local_owned == true ? 1 : 0);
 
 
                                             $.ajax({
@@ -421,6 +423,7 @@ include __DIR__ . "/../datapages/header.php";
 <script src="/storage/js/custom-elements/comment-cards.js"></script>
 <script src="/storage/js/like-to-question.js"></script>
 <script src="/storage/js/question-base-funcs.js"></script>
+<script src="/storage/js/comment-base-funcs.js"></script>
 
 </body>
 </html>
